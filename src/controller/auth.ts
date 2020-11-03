@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 
-class StudentController {
+class AuthController {
 
     router: Router;
 
@@ -19,13 +19,14 @@ class StudentController {
     }
 
     routes() {
-        this.router.get("/", this.getAllStudents);
-        this.router.get("/:id", this.getStudent);
+        this.router.get("/google", this.getAllStudents);
+        this.router.get("/google/callback", this.getAllStudents);
+
         // this.router.post("/", this.createStudent);
         // this.router.put("/", this.updateStudent);
         // this.router.delete("/:id", this.desactivateStudent);
       }
 }
 
-const studentController = new StudentController();
+const studentController = new AuthController();
 export default studentController.router;

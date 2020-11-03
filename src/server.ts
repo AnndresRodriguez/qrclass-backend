@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import compression from "compression";
+import passport from 'passport';
 
 export default class Server {
     public app: express.Application;
@@ -40,6 +41,16 @@ export default class Server {
     }
   
     routes(): void {
+
+       this.app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+
+       this.app.get('/auth/google/callback', 
+       passport.authenticate('google', { failureRedirect: '/login' }),
+       function(req, res) {
+         // Successful authentication, redirect home.
+         res.redirect('/');
+       });
+
       
     //   this.app.use(routes.indexController);
       this.app.use(express.static("public"));
