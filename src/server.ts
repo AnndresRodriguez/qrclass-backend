@@ -5,6 +5,11 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import compression from "compression";
 import passport from 'passport';
+import { config } from 'dotenv';
+config();
+
+require('./config/passport')
+const cookieSession = require('cookie-session')
 
 export default class Server {
     public app: express.Application;
@@ -37,18 +42,24 @@ export default class Server {
       this.app.use(cors());
       this.app.use(helmet());
       this.app.use(compression());
+      this.app.use(cookieSession({ name: 'qr-session', keys: [`${process.env.COOKIE}`]}))
+      this.app.use(passport.initialize());
+      this.app.use(passport.session());
   
     }
   
     routes(): void {
 
-       this.app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+       this.app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+       
+       this.app.get('/auth-error', (req, res) => {
+          res.json({ auth: false })
+       });
 
        this.app.get('/auth/google/callback', 
-       passport.authenticate('google', { failureRedirect: '/login' }),
+       passport.authenticate('google', { failureRedirect: '/auth-error' }),
        function(req, res) {
-         // Successful authentication, redirect home.
-         res.redirect('/');
+         res.json({ auth: true });
        });
 
       
