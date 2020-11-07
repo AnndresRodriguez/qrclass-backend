@@ -10,7 +10,7 @@ class StudentController {
     }
 
     getAllStudents(req: Request, res: Response){
-
+        
     }
 
     getStudent(){
