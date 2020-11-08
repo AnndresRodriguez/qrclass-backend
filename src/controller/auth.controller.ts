@@ -1,28 +1,34 @@
-import { Request, Response, Router } from 'express';
+import { Request, Response, Router } from "express";
+import {
+  login,
+  setCredentials,
+  removeCredentials,
+} from "../services/auth.service";
 
 class AuthController {
+  router: Router;
 
-    router: Router;
+  constructor() {
+    this.router = Router();
+    this.routes();
+  }
 
-    constructor(){
-        this.router = Router();
-        this.routes();
-    }
+  async login(req: Request, res: Response) {
+    const code = req.query.code;
+    const responseLogin = await setCredentials(code);
+    const dataLogin = await login(responseLogin);
+    res.json({ dataLogin });
+  }
 
-    login(req: Request, res: Response){
+  logout(req: Request, res: Response) {
+    removeCredentials();
+  }
 
-
-    }
-
-    failure(req: Request, res: Response){
-
-    }
-
-    routes() {
-        this.router.get("/google", this.login);
-        this.router.get("/google/callback", this.failure);
-      }
+  routes() {
+    this.router.get("/google/callback", this.login);
+    this.router.get("/logout", this.logout);
+  }
 }
 
-const studentController = new AuthController();
-export default studentController.router;
+const authController = new AuthController();
+export default authController.router;
