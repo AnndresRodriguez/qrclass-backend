@@ -8,7 +8,7 @@ const oauth2Client = new google.auth.OAuth2(
   `${process.env.GOOGLE_CALLBACK_URL}`
 );
 
-const redirectUrl = oauth2Client.generateAuthUrl({
+export let redirectUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     prompt: 'consent',
     scope: ['email', 'profile']
