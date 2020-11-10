@@ -1,19 +1,13 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('admin')
-export class Admin extends BaseEntity{
+@Entity('departamento')
+export class Departamento extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    correoAdmin: number;
+    idDepartamento: number;
     @Column({type: 'varchar', length: 45})
-    NombreCoAdmin: string;
-    @Column({type: 'varchar', length: 45})
-    DocumentoAdmin: string;
-    @Column({type: 'varchar', length: 20})
-    telefonoAdmin: string;
+    nombre: string;
     // @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     // createdAt: Date
     // @Column({type: 'datetime', name: 'updated_at', nullable: true })
     // updatedAt: Date
-
-    // correoAdmin NombreCoAdmin DocumentoAdmin telefonoAdmin
 }
