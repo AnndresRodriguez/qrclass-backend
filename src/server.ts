@@ -9,8 +9,6 @@ import { config } from 'dotenv';
 import routes from './controller'
 
 config();
-
-// require('./config/passport')
 const cookieSession = require('cookie-session');
 
 
@@ -48,29 +46,12 @@ export default class Server {
       this.app.use(helmet());
       this.app.use(compression());
       this.app.use(cookieSession({ name: 'qr-session', keys: [`${process.env.COOKIE}`]}))
-      // this.app.use(passport.initialize());
-      // this.app.use(passport.session());
   
     }
   
     routes(): void {
 
       this.app.use('/auth', routes.authController);
-      
-      //  this.app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-       
-      //  this.app.get('/auth-error', (req, res) => {
-      //     res.json({ auth: false })
-      //  });
-
-      //  this.app.get('/auth/google/callback', 
-      //  passport.authenticate('google', { failureRedirect: '/auth-error' }),
-      //  function(req, res) {
-      //    res.json({ auth: true });
-      //  });
-
-      
-    //   this.app.use(routes.indexController);
       this.app.use(express.static("public"));
     }
   
