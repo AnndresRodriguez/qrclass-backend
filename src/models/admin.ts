@@ -5,15 +5,15 @@ export class Admin extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     correoAdmin: number;
     @Column({type: 'varchar', length: 45})
-    NombreCoAdmin: string;
+    nombreCompleto: string;
     @Column({type: 'varchar', length: 45})
-    DocumentoAdmin: string;
+    documento: string;
     @Column({type: 'varchar', length: 20})
-    telefonoAdmin: string;
-    // @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
-    // createdAt: Date
-    // @Column({type: 'datetime', name: 'updated_at', nullable: true })
-    // updatedAt: Date
+    telefono: string;
+    @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date
+    @Column({type: 'datetime', name: 'updated_at', nullable: true })
+    updatedAt: Date
 
     // correoAdmin NombreCoAdmin DocumentoAdmin telefonoAdmin
 }
