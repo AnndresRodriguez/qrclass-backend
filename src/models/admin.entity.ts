@@ -3,12 +3,14 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('admin')
 export class Admin extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    correoAdmin: number;
-    @Column({type: 'varchar', length: 45})
-    nombreCompleto: string;
-    @Column({type: 'varchar', length: 45})
+    idAdmin: number;
+    @Column({type: 'varchar', length: 100})
+    nombrecompleto: string;
+    @Column({type: 'varchar', length: 10})
     documento: string;
-    @Column({type: 'varchar', length: 20})
+    @Column({type: 'varchar', length: 45})
+    correo: string;
+    @Column({type: 'varchar', length: 10})
     telefono: string;
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date

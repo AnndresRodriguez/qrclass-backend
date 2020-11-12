@@ -7,6 +7,7 @@ import compression from "compression";
 import passport from 'passport';
 import { config } from 'dotenv';
 import routes from './controller'
+import database from './config/datebase';
 
 config();
 const cookieSession = require('cookie-session');
@@ -33,7 +34,7 @@ export default class Server {
   
       dotenv.config();
       try {
-        //   database.conectionMySql();
+          database.conectionMySql();
         } catch (error) {
           console.log(error)
       };

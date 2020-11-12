@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable } from 'typeorm';
-// import { Asistencia } from './asistencia';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable, ManyToOne } from 'typeorm';
+import { Materia } from './materia.entity';
+import { Departamento } from './departamento.entity';
 
 @Entity('docente')
 export class Docente extends BaseEntity{
@@ -11,12 +12,17 @@ export class Docente extends BaseEntity{
     correo: number;
     @Column({type: 'varchar', length: 10}) 
     telefono: number;
+
+    @ManyToOne(() => Departamento, departamento => departamento.docentes)
+    @JoinTable({ name: "Departamento_idDepartamento" })
+    departamento: Departamento;
+
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    // @OneToMany(() => Asistencia, asistencia => asistencia.estudiante)
-    // asistencias: Asistencia[];
+    @OneToMany(() => Materia, materia => materia.docente)
+    materias: Materia[];
 
 }

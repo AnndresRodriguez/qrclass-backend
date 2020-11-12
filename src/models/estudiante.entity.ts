@@ -1,10 +1,11 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable } from 'typeorm';
-// import { Asistencia } from './asistencia';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Asistencia } from './asistencia.entity';
+import { Matricula } from './matricula.entity';
 
-@Entity('dirprograma')
-export class DirPrograma extends BaseEntity{
+@Entity('estudiante')
+export class Estudiante extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
-    idCodigo_director: number;
+    idEstudianteCodigo: number;
     @Column({type: 'varchar', length: 100})
     nombre: string;
     @Column({type: 'varchar', length: 45}) 
@@ -15,5 +16,8 @@ export class DirPrograma extends BaseEntity{
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
+
+    @OneToMany(() => Matricula, matricula => matricula.estudiante)
+    matriculas: Matricula[];
 
 }
