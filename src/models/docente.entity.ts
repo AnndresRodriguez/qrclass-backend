@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable, ManyToOne } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable, ManyToOne, JoinColumn } from 'typeorm';
 import { Materia } from './materia.entity';
 import { Departamento } from './departamento.entity';
 
@@ -14,7 +14,7 @@ export class Docente extends BaseEntity{
     telefono: number;
 
     @ManyToOne(() => Departamento, departamento => departamento.docentes)
-    @JoinTable({ name: "Departamento_idDepartamento" })
+    @JoinColumn({ name: "Departamento_idDepartamento" })
     departamento: Departamento;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })

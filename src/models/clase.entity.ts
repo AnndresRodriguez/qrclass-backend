@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinTable } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinTable, JoinColumn } from 'typeorm';
 import { Hora } from './hora.entity';
 import { Asistencia } from './asistencia.entity';
 import { Materia } from './materia.entity';
@@ -8,16 +8,16 @@ import { Dia } from './dia.entity';
 @Entity('clase')
 export class Clase extends BaseEntity{
     
-    @ManyToOne(() => Hora, hora => hora.idHora)
-    @JoinTable({ name: "Hora_idHora" })
+    @ManyToOne(() => Hora, hora => hora.idHora, { primary: true })
+    @JoinColumn({ name: "Hora_idHora" })
     hora: Hora;
 
-    @ManyToOne(() => Materia, materia => materia.clases)
-    @JoinTable({ name: "Materia_idMateriaCodigo" })
+    @ManyToOne(() => Materia, materia => materia.clases, { primary: true })
+    @JoinColumn({ name: "Materia_idMateriaCodigo" })
     materia: Materia;
    
-    @ManyToOne(() => Dia, dia => dia.clases)
-    @JoinTable({ name: "Dia_idDia" })
+    @ManyToOne(() => Dia, dia => dia.clases, { primary: true })
+    @JoinColumn({ name: "Dia_idDia" })
     dia: Dia;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })

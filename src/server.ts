@@ -53,6 +53,9 @@ export default class Server {
     routes(): void {
 
       this.app.use('/auth', routes.authController);
+      this.app.use('/docente', routes.docenteController);
+      this.app.use('/estudiante', routes.estudianteController);
+      this.app.use('/programa-academico', routes.programaAcademicoController);
       this.app.use(express.static("public"));
     }
   
