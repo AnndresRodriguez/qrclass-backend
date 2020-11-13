@@ -1,6 +1,6 @@
 
 
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinTable, JoinColumn } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 // import { Asistencia } from './asistencia';
  import { Clase } from './clase.entity';
  import { ProgramaAcademico } from './programaAcademico.entity';
@@ -15,7 +15,7 @@ export class Materia extends BaseEntity{
     idMateriaCodigo: number;
 
     @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
-    @JoinTable({ name: "Docente_idDocenteCodigo" })
+    @JoinColumn({ name: "Docente_idDocenteCodigo" })
     docente: Docente;
 
     @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
