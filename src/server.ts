@@ -38,7 +38,6 @@ export default class Server {
         } catch (error) {
           console.log(error)
       };
-    //   this.app.use(useragent.express());
       this.app.set("port", process.env.PORT || this.port || 3000);
       this.app.use(morgan("dev"));
       this.app.use(express.json());
@@ -53,9 +52,10 @@ export default class Server {
     routes(): void {
 
       this.app.use('/auth', routes.authController);
-      this.app.use('/docente', routes.docenteController);
-      this.app.use('/estudiante', routes.estudianteController);
-      this.app.use('/programa-academico', routes.programaAcademicoController);
+      this.app.use('/docentes', routes.docenteController);
+      this.app.use('/estudiantes', routes.estudianteController);
+      this.app.use('/programa-academicos', routes.programaAcademicoController);
+      this.app.use('/departamentos', routes.departamentoController);
       this.app.use(express.static("public"));
     }
   
