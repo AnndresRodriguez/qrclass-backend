@@ -26,7 +26,7 @@ class DocenteController {
 
     async createDocente(req: Request, res: Response){
 
-        const dataNewDocente: IDocente = req.body();
+        const dataNewDocente: IDocente = req.body;
         const { operation, message, data } =  await docenteService.createDocente(dataNewDocente);
         operation
          ? res.status(200).json({ operation, message, data })
