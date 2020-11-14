@@ -4,14 +4,14 @@ import { Departamento } from './departamento.entity';
 
 @Entity('docente')
 export class Docente extends BaseEntity{
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn({ type: 'integer' })
     idDocenteCodigo: number;
     @Column({type: 'varchar', length: 100})
     nombre: string;
     @Column({type: 'varchar', length: 45}) 
-    correo: number;
+    correo: string;
     @Column({type: 'varchar', length: 10}) 
-    telefono: number;
+    telefono: string;
 
     @ManyToOne(() => Departamento, departamento => departamento.docentes)
     @JoinColumn({ name: "Departamento_idDepartamento" })

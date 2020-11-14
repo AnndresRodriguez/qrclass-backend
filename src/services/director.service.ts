@@ -24,14 +24,7 @@ class DocenteService {
     
   }
 
-  async createDocente(docente: IDocente) {
-
-    const contactRepository = getRepository(Docente);
-    const newDocente = contactRepository.create(docente);
-    const httpResponse = new HttpResponse();
-    const contactCreated = await newDocente.save();
-    httpResponse.create('Contact', contactCreated);
-    return httpResponse;
+  async createDocente(name: string) {
    
   }
 

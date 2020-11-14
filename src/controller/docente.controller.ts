@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import docenteService from '../services/docente.service';
+import { IDocente } from '../models/interfaces/IDocente';
 
 class DocenteController {
 
@@ -23,8 +24,13 @@ class DocenteController {
 
     }
 
-    createDocente(req: Request, res: Response){
+    async createDocente(req: Request, res: Response){
 
+        const dataNewDocente: IDocente = req.body();
+        const { operation, message, data } =  await docenteService.createDocente(dataNewDocente);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
     }
 
     updateDocente(req: Request, res: Response){
