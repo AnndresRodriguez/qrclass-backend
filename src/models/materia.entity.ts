@@ -36,6 +36,9 @@ export class Materia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date;
 
+    @Column({type: 'integer', length: 1, default: 1})
+    estado: number;
+
 
     @OneToMany(() => Clase, clase => clase.materia)
     clases: Clase[];

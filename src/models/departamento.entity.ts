@@ -11,6 +11,8 @@ export class Departamento extends BaseEntity{
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
+    @Column({type: 'integer', length: 1, default: 1})
+    estado: number;
 
     @OneToMany(() => Docente, docente => docente.departamento)
     docentes: Docente[];

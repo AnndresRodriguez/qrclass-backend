@@ -17,6 +17,9 @@ export class Estudiante extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
+    @Column({type: 'integer', length: 1})
+    estado: number;
+
     @OneToMany(() => Matricula, matricula => matricula.estudiante)
     matriculas: Matricula[];
 

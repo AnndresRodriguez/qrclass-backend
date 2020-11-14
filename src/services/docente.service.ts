@@ -5,6 +5,7 @@ import _ from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
 import { IDocente } from "../models/interfaces/IDocente";
 import { Docente } from '../models/docente.entity'
+import { Departamento } from '../models/departamento.entity';
 
 class DocenteService {
   async getAllDocentes() {
