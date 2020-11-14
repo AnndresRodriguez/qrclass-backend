@@ -28,11 +28,23 @@ class DocenteService {
   async createDocente(docente: IDocente) {
 
     const contactRepository = getRepository(Docente);
-    const newDocente = contactRepository.create(docente);
+    const departamentoRepository = getRepository(Departamento);
     const httpResponse = new HttpResponse();
-    const contactCreated = await newDocente.save();
-    httpResponse.create('Contact', contactCreated);
+
+    const departamentoDocente = await departamentoRepository.findOne(docente.idDepartamento);
+    
+    if(departamentoDocente != undefined){
+      
+      const newDocente = contactRepository.create(docente);
+      newDocente.departamento = departamentoDocente;
+      const contactCreated = await newDocente.save();
+      httpResponse.create('Contact', contactCreated);
+      return httpResponse;
+
+    }
+
     return httpResponse;
+
    
   }
 

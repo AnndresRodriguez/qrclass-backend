@@ -12,7 +12,7 @@ export class DirPrograma extends BaseEntity{
     telefono: number;
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
-    @Column({type: 'integer', length: 1, default: 1})
+    @Column({type: 'integer', default: 1})
     estado: number;
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date

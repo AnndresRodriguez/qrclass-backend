@@ -19,7 +19,7 @@ export class Matricula extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @Column({type: 'integer', length: 1, default: 1})
+    @Column({type: 'integer', default: 1})
     estado: number;
 
 

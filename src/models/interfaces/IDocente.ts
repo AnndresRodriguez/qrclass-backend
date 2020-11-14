@@ -3,6 +3,7 @@ export interface IDocente {
     nombre: string;
     correo: string;
     telefono: string;
-    estado: number
+    estado: number;
+    idDepartamento: number;
     
 }
