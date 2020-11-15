@@ -33,7 +33,14 @@ class DocenteController {
          : res.status(202).json({ operation, message });
     }
 
-    updateDocente(req: Request, res: Response){
+    async updateDocente(req: Request, res: Response){
+
+        const docenteToUpdate: IDocente = req.body
+        const { operation, message, data } =  await docenteService.updateDocente(docenteToUpdate.idDocenteCodigo, docenteToUpdate);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
 
     }
 
