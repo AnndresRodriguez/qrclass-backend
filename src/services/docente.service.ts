@@ -91,19 +91,10 @@ class DocenteService {
 
       if (docenteToUpdate !== undefined) {
         if(departamentoDocente !== undefined){
-           
-           const noRepeatCode = await this.validateCodeDocente(newDataDocente.codigo);
-
-           if(!noRepeatCode){
              const docenteToSave = await this.setDataDocente(docenteToUpdate, newDataDocente, departamentoDocente)
              const docenteUpdated = await docenteToSave.save();
              httpResponse.update("Docente", docenteUpdated);
              return httpResponse;
-           }
-
-           httpResponse.errorDuplicated();
-           return httpResponse;
-
         }
         httpResponse.errorNotFoundID('Departamento', newDataDocente.idDepartamento);
         return httpResponse;
