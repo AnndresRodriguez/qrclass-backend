@@ -36,7 +36,10 @@ class DocenteController {
     async updateDocente(req: Request, res: Response){
 
         const docenteToUpdate: IDocente = req.body
-        const { operation, message, data } =  await docenteService.updateDocente(docenteToUpdate.idDocenteCodigo, docenteToUpdate);
+
+        console.log('docenteToUpdate.id', docenteToUpdate.id);
+
+        const { operation, message, data } =  await docenteService.updateDocente(docenteToUpdate.id, docenteToUpdate);
         operation
          ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });
@@ -44,7 +47,12 @@ class DocenteController {
 
     }
 
-    desactivateDocente(req: Request, res: Response){
+    async desactivateDocente(req: Request, res: Response){
+
+        const { operation, message, data } =  await docenteService.changeStatusDocente(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 

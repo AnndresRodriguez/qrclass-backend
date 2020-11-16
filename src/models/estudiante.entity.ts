@@ -1,24 +1,26 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Asistencia } from './asistencia.entity';
 import { Matricula } from './matricula.entity';
 
 @Entity('estudiante')
 export class Estudiante extends BaseEntity{
+
     @PrimaryGeneratedColumn('increment')
-    idEstudianteCodigo: number;
+    id: number;
+    @Column({type: 'varchar', length: 10})
+    codigo: string;
     @Column({type: 'varchar', length: 100})
     nombre: string;
     @Column({type: 'varchar', length: 45}) 
-    correo: number;
+    correo: string;
     @Column({type: 'varchar', length: 10}) 
-    telefono: number;
+    telefono: string;
+    @Column({type: 'integer', default: "1"})
+    estado: number;
+    
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
-
-    @Column({type: 'integer', default: 1})
-    estado: number;
 
     @OneToMany(() => Matricula, matricula => matricula.estudiante)
     matriculas: Matricula[];

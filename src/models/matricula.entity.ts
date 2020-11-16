@@ -7,11 +7,11 @@ import { Estudiante } from './estudiante.entity';
 export class Matricula extends BaseEntity{
 
     @ManyToOne(() => Materia, materia => materia.matriculas, { primary: true })
-    @JoinColumn({ name: "Materia_idMateriaCodigo" })
+    @JoinColumn({ name: "idMateria" })
     materia: Materia;
 
     @ManyToOne(() => Materia, materia => materia.matriculas, { primary: true })
-    @JoinColumn({ name: "Estudiante_idEstudianteCodigo" })
+    @JoinColumn({ name: "idEstudiante" })
     estudiante: Estudiante;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
@@ -19,7 +19,7 @@ export class Matricula extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @Column({type: 'integer', default: 1})
+    @Column({type: 'integer', default: "1"})
     estado: number;
 
 

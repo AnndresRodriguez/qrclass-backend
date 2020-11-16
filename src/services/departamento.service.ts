@@ -1,6 +1,3 @@
-
-
-import { getRepository } from "typeorm";
 import fp from "lodash/fp";
 import _ from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
@@ -10,8 +7,7 @@ import { Departamento } from '../models/departamento.entity'
 class DepartamentoService {
   async getAllDepartamentos() {
     const httpResponse = new HttpResponse();
-    const cityRepository =  getRepository(Departamento);
-    const allDepartamentos = await cityRepository.find();
+    const allDepartamentos = await Departamento.getAllDepartments();
     if(!_.isEmpty(allDepartamentos)){
         httpResponse.findAll(allDepartamentos);
         return httpResponse;

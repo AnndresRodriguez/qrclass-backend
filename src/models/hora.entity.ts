@@ -10,7 +10,7 @@ export class Hora extends BaseEntity{
     @Column({type: 'time' })
     horainicio: Date
     @Column({type: 'time' })
-    horafinl: Date
+    horafinal: Date
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })

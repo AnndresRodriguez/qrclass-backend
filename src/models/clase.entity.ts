@@ -9,15 +9,15 @@ import { Dia } from './dia.entity';
 export class Clase extends BaseEntity{
     
     @ManyToOne(() => Hora, hora => hora.idHora, { primary: true })
-    @JoinColumn({ name: "Hora_idHora" })
+    @JoinColumn({ name: "idHora" })
     hora: Hora;
 
     @ManyToOne(() => Materia, materia => materia.clases, { primary: true })
-    @JoinColumn({ name: "Materia_idMateriaCodigo" })
+    @JoinColumn({ name: "idMateria" })
     materia: Materia;
    
     @ManyToOne(() => Dia, dia => dia.clases, { primary: true })
-    @JoinColumn({ name: "Dia_idDia" })
+    @JoinColumn({ name: "idDia" })
     dia: Dia;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })

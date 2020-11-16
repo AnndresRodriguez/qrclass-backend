@@ -9,24 +9,11 @@ import { Departamento } from "../models/departamento.entity";
 class DocenteService {
   async getAllDocentes() {
     const httpResponse = new HttpResponse();
-    const allDocentes = await getRepository(Docente)
-      .createQueryBuilder("docente")
-      .select([
-        "docente.idDocenteCodigo",
-        "docente.nombre",
-        "docente.correo",
-        "docente.telefono",
-        "docente.estado",
-        "departamento.nombre",
-        "departamento.estado",
-      ])
-      .leftJoin("docente.departamento", "departamento")
-      .where("docente.estado = :estado", { estado: 1 })
-      .getMany();
+    const allDocentes = await Docente.getAllDocentes();
+
     if (!_.isEmpty(allDocentes)) {
- 
-      httpResponse.findAll(allDocentes);
-      return httpResponse;
+        httpResponse.findAll(allDocentes);
+        return httpResponse;
     }
 
     httpResponse.emptyRecords();
@@ -36,80 +23,92 @@ class DocenteService {
   async getDocente(id: number) {}
 
   async createDocente(docente: IDocente) {
+
     const docenteRepository = getRepository(Docente);
     const departamentoRepository = getRepository(Departamento);
     const httpResponse = new HttpResponse();
 
-    const departamentoDocente = await departamentoRepository.findOne(
-      docente.idDepartamento
+    const departamentoDocente = await departamentoRepository.findOne(docente.idDepartamento);
+    const existsDocente = await this.validateCodeDocente(docente.codigo);
 
-    );
-    const existsDocente = await this.validateCodeDocente(
-      docente.idDocenteCodigo
-    );
+    if (!existsDocente) {
+      if (departamentoDocente !== undefined) {
 
-    if (existsDocente) {
-      if (departamentoDocente != undefined) {
-          const newDocente = docenteRepository.create(docente);
-          newDocente.departamento = departamentoDocente;
-          const docenteCreated = await newDocente.save();
-          httpResponse.create("docente", docenteCreated);
+          const noRepeatCode = await this.validateCodeDocente(docente.codigo);
+
+          if(!noRepeatCode){
+             const newDocente = docenteRepository.create(docente);
+             newDocente.departamento = departamentoDocente;
+             const docenteCreated = await newDocente.save();
+             httpResponse.create("docente", docenteCreated);
+             return httpResponse;
+          }
+
+          httpResponse.errorDuplicated();
           return httpResponse;
+
       }
-      httpResponse.errorDuplicated();
+      httpResponse.errorNotFoundID('Departamento', docente.idDepartamento);
       return httpResponse;
-    }else {
-      httpResponse.errorNotFoundID('Docente', docente.idDocenteCodigo);
     }
+      
+    httpResponse.errorDuplicated();
     return httpResponse;
   }
 
-  async disableDocente(idDocente: number) {
+  async changeStatusDocente(idDocente: number) {
     const httpResponse = new HttpResponse();
+    if (_.isNumber(+idDocente)) {
 
-    if (!_.isNaN(idDocente)) {
+      const docenteRepository = getRepository(Docente);
+      const docenteToDisable = await docenteRepository.findOne(idDocente);
+      if (docenteToDisable !== undefined){
 
-      
+        docenteToDisable.estado = docenteToDisable.estado == 0 ? docenteToDisable.estado = 1 : docenteToDisable.estado = 0;
 
+        const docenteDisabled = await docenteToDisable.save();
+        httpResponse.update('Docente', docenteDisabled);
+        return httpResponse;
+      }
+
+      httpResponse.errorNotFoundID('Docente', idDocente);
+      return httpResponse;
     }
 
-    // doecenteToUpdate.estado = doecenteToUpdate.estado == 0 ? doecenteToUpdate.estado = 1 : doecenteToUpdate.estado = 0;
+    httpResponse.errorFormatInvalid(idDocente);
+    return httpResponse;
+
   }
 
   async updateDocente(idDocente: number, newDataDocente: IDocente) {
+
     const httpResponse = new HttpResponse();
-    if (!_.isNaN(idDocente)) {
+    if (_.isNumber(+idDocente)) {
       const docenteRepository = getRepository(Docente);
       const departamentoRepository = getRepository(Departamento);
-      const departamentoDocente = await departamentoRepository.findOne(
-        newDataDocente.idDepartamento
-      );
+      const departamentoDocente = await departamentoRepository.findOne(newDataDocente.idDepartamento);
       const docenteToUpdate = await docenteRepository.findOne(idDocente);
+
       if (docenteToUpdate !== undefined) {
-        docenteToUpdate.nombre = newDataDocente.nombre;
-        docenteToUpdate.correo = newDataDocente.correo;
-        docenteToUpdate.telefono = newDataDocente.telefono;
-        if (departamentoDocente !== undefined) {
-          docenteToUpdate.departamento = departamentoDocente;
+        if(departamentoDocente !== undefined){
+           
+           const noRepeatCode = await this.validateCodeDocente(newDataDocente.codigo);
+
+           if(!noRepeatCode){
+             const docenteToSave = await this.setDataDocente(docenteToUpdate, newDataDocente, departamentoDocente)
+             const docenteUpdated = await docenteToSave.save();
+             httpResponse.update("Docente", docenteUpdated);
+             return httpResponse;
+           }
+
+           httpResponse.errorDuplicated();
+           return httpResponse;
+
         }
-        docenteToUpdate.updatedAt = new Date();
-        const {
-          idDocenteCodigo,
-          nombre,
-          correo,
-          telefono,
-          departamento,
-        } = await docenteToUpdate.save();
-        httpResponse.update("Docente", {
-          idDocenteCodigo,
-          nombre,
-          correo,
-          telefono,
-          departamento,
-        });
+        httpResponse.errorNotFoundID('Departamento', newDataDocente.idDepartamento);
         return httpResponse;
       }
-      httpResponse.errorNotFoundID("Docente", idDocente);
+      httpResponse.errorNotFoundID('Docente', idDocente);
       return httpResponse;
     }
 
@@ -117,18 +116,29 @@ class DocenteService {
     return httpResponse;
   }
 
-  async validateCodeDocente(idDocenteCodigo: number): Promise<boolean> {
-    const docenteRepository = getRepository(Docente);
-    const docenteFinded = await docenteRepository.findOne(idDocenteCodigo);
-    return docenteFinded === undefined;
+  async setDataDocente(currentDocente: Docente, newDataDocente: IDocente, newDepartamento: Departamento){
+
+        currentDocente.codigo = newDataDocente.codigo;
+        currentDocente.nombre = newDataDocente.nombre;
+        currentDocente.correo = newDataDocente.correo;
+        currentDocente.telefono = newDataDocente.telefono;
+        currentDocente.departamento = newDepartamento;
+        currentDocente.updatedAt = new Date();
+        return currentDocente;
   }
 
-  async existsDepartment(idDepartamento: number): Promise<boolean> {
+  async validateCodeDocente(docenteCodigo: string): Promise<boolean> {
+    const docenteRepository = getRepository(Docente);
+    const docenteFinded = await docenteRepository.find({ where: { codigo: docenteCodigo } });
+    return !_.isEmpty(docenteFinded);
+  }
+
+  async existsDepartment(codigoDepartamento: string): Promise<boolean> {
     const departamentoRepository = getRepository(Departamento);
-    const departamentoDocente = await departamentoRepository.findOne(
-      idDepartamento
+    const departamentoDocente = await departamentoRepository.find( { where: { codigo: codigoDepartamento } }
+      
     );
-    return departamentoDocente !== undefined;
+    return !_.isEmpty(departamentoDocente);
   }
 }
 

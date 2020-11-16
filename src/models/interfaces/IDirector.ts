@@ -1,7 +1,9 @@
-export interface IProgramaAcademico {
+export interface IDirector {
     id: number;
     codigo: string;
     nombre: string;
     correo: string;
-    idDirector: number;  
+    telefono: string;
+    estado: number;
+    
 }

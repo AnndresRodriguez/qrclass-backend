@@ -5,16 +5,20 @@ import { Departamento } from './departamento.entity';
 @Entity('docente')
 export class Docente extends BaseEntity{
     @PrimaryGeneratedColumn({ type: 'integer' })
-    idDocenteCodigo: number;
+    id: number;
+    @Column({type: 'varchar', length: 10})
+    codigo: string;
     @Column({type: 'varchar', length: 100})
     nombre: string;
     @Column({type: 'varchar', length: 45}) 
     correo: string;
     @Column({type: 'varchar', length: 10}) 
     telefono: string;
+    @Column({type: 'integer', default: "1"})
+    estado: number;
 
     @ManyToOne(() => Departamento, departamento => departamento.docentes)
-    @JoinColumn({ name: "Departamento_idDepartamento" })
+    @JoinColumn({ name: "idDepartamento" })
     departamento: Departamento;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
@@ -22,10 +26,25 @@ export class Docente extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @Column({type: 'integer', default: 1})
-    estado: number;
 
     @OneToMany(() => Materia, materia => materia.docente)
     materias: Materia[];
+
+    static getAllDocentes(){
+        return this.createQueryBuilder("docente")
+        .select([
+          "docente.id",
+          "docente.codigo",
+          "docente.nombre",
+          "docente.correo",
+          "docente.telefono",
+          "docente.estado",
+          "departamento.nombre",
+          "departamento.estado",
+        ])
+        .leftJoin("docente.departamento", "departamento")
+        .where("docente.estado = :estado", { estado: 1 })
+        .getMany();
+    }
 
 }
