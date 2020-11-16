@@ -114,6 +114,7 @@ class DocenteService {
         currentDocente.correo = newDataDocente.correo;
         currentDocente.telefono = newDataDocente.telefono;
         currentDocente.departamento = newDepartamento;
+        currentDocente.estado = newDataDocente.estado;
         currentDocente.updatedAt = new Date();
         return currentDocente;
   }
