@@ -1,4 +1,6 @@
 import { Request, Response, Router } from 'express';
+import adminService from '../services/admin.service';
+import { IAdmin } from '../models/interfaces/IAdmin';
 
 class AdminController {
 
@@ -9,23 +11,49 @@ class AdminController {
         this.routes();
     }
 
-    getAllAdmins(req: Request, res: Response){
+    async getAllAdmins(req: Request, res: Response){
+
+        const { operation, message, data } =  await adminService.getAllAdmins();
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    getAdmin(){
+    async getAdmin(req: Request, res: Response){
+
+        const { operation, message, data } =  await adminService.getAdmin(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    createAdmin(req: Request, res: Response){
+    async createAdmin(req: Request, res: Response){
+
+        const newAdmin: IAdmin = req.body;
+        const { operation, message, data } =  await adminService.createAdmin(newAdmin);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+    }
+
+    async updateAdmin(req: Request, res: Response){
+
+        const newAdmin: IAdmin = req.body;
+        const { operation, message, data } =  await adminService.updateAdmin(newAdmin.id, newAdmin);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    updateAdmin(req: Request, res: Response){
+    async desactivateAdmin(req: Request, res: Response){
 
-    }
-
-    desactivateAdmin(req: Request, res: Response){
+        const { operation, message, data } =  await adminService.desactivateAdmin(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 

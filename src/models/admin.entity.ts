@@ -19,6 +19,20 @@ export class Admin extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
+    static getAllAdmins(){
+        return this.createQueryBuilder("admin")
+        .select([
+          "admin.id",
+          "admin.nombrecompleto",
+          "admin.documento",
+          "admin.correo",
+          "admin.telefono",
+          "admin.estado",
+        ])
+        .where("admin.estado = :estado", { estado: 1 })
+        .getMany();
+    }
+
 
     // correoAdmin NombreCoAdmin DocumentoAdmin telefonoAdmin
 }

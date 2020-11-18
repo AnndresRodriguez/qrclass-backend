@@ -20,7 +20,22 @@ class DocenteService {
     return httpResponse;
   }
 
-  async getDocente(id: number) {}
+  async getDocente(id: number) {
+
+    const httpResponse = new HttpResponse();
+      const docenteRepository = getRepository(Docente);
+      const docente = await docenteRepository.findOne(id);
+
+      if(docente !== undefined){
+
+         httpResponse.findOne(docente);
+         return httpResponse;
+      }
+
+      httpResponse.errorNotFoundID('Docente', id);
+      return httpResponse;
+
+  }
 
   async createDocente(docente: IDocente) {
 

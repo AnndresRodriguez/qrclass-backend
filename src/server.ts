@@ -52,6 +52,7 @@ export default class Server {
     routes(): void {
 
       this.app.use('/auth', routes.authController);
+      this.app.use('/admin', routes.adminController);
       this.app.use('/docentes', routes.docenteController);
       this.app.use('/estudiantes', routes.estudianteController);
       this.app.use('/programa-academicos', routes.programaAcademicoController);
