@@ -47,4 +47,23 @@ export class Docente extends BaseEntity{
         .getMany();
     }
 
+    static getInactiveDocentes(){
+
+      return this.createQueryBuilder("docente")
+        .select([
+          "docente.id",
+          "docente.codigo",
+          "docente.nombre",
+          "docente.correo",
+          "docente.telefono",
+          "docente.estado",
+          "departamento.nombre",
+          "departamento.estado",
+        ])
+        .leftJoin("docente.departamento", "departamento")
+        .where("docente.estado = :estado", { estado: 0 })
+        .getMany();
+
+    }
+
 }

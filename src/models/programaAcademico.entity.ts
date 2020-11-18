@@ -28,4 +28,23 @@ export class ProgramaAcademico extends BaseEntity{
     @OneToMany(() => Materia, materia => materia.programaAcademico)
     @JoinColumn()
     materias: Materia[];
+
+    static getAllPrograms(){
+        return this.createQueryBuilder("programaacademico")
+        .select([
+          "programaacademico.id",
+          "programaacademico.codigo",
+          "programaacademico.nombre",
+          "programaacademico.correo",
+          "programaacademico.estado",
+          "dirprograma.codigo",
+          "dirprograma.nombre",
+          "dirprograma.estado",
+        ])
+        .leftJoin("programaacademico.dirPrograma", "dirprograma")
+        .getMany();
+    }
+
+
+
 }

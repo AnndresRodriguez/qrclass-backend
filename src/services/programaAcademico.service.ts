@@ -9,8 +9,8 @@ import { ProgramaAcademico } from '../models/programaAcademico.entity';
 class ProgramaAcademicoService {
   async getAllProgramaAcademicos() {
     const httpResponse = new HttpResponse();
-    const cityRepository =  getRepository(ProgramaAcademico);
-    const allProgramaAcademicos = await cityRepository.find();
+    // const cityRepository =  getRepository(ProgramaAcademico);
+    const allProgramaAcademicos = await ProgramaAcademico.getAllPrograms();
     if(!_.isEmpty(allProgramaAcademicos)){
         httpResponse.findAll(allProgramaAcademicos);
         return httpResponse;
