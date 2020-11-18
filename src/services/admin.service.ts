@@ -42,19 +42,15 @@ class AdminService {
       const existsAdmin = await this.validateDocumentAdmin(admin.documento);
   
       if (!existsAdmin) {
-       
         const newAdmin = adminRepository.create(admin);
-        const docenteCreated = await newAdmin.save();
-        httpResponse.create("Admin", docenteCreated);
+        const adminCreated = await newAdmin.save();
+        httpResponse.create("Admin", adminCreated);
         return httpResponse;
-
       }
           
       httpResponse.errorDuplicated();
       return httpResponse;
     }
-  
-
   
     async updateAdmin(idAdmin: number, newDataAdmin: IAdmin) {
   
@@ -109,6 +105,7 @@ class AdminService {
           currentAdmin.nombrecompleto = newDataAdmin.nombrecompleto;
           currentAdmin.correo = newDataAdmin.correo;
           currentAdmin.telefono = newDataAdmin.telefono;
+          currentAdmin.estado = newDataAdmin.estado;
           currentAdmin.updatedAt = new Date();
           return currentAdmin;
     }
@@ -119,13 +116,6 @@ class AdminService {
       return !_.isEmpty(docenteFinded);
     }
   
-    // async existsDepartment(codigoDepartamento: string): Promise<boolean> {
-    //   const departamentoRepository = getRepository(Admin);
-    //   const departamentoDocente = await departamentoRepository.find( { where: { codigo: codigoDepartamento } }
-        
-    //   );
-    //   return !_.isEmpty(departamentoDocente);
-    // }
   }
   
   const adminService = new AdminService();

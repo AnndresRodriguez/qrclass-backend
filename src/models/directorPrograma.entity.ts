@@ -12,11 +12,24 @@ export class DirPrograma extends BaseEntity{
     correo: string;
     @Column({type: 'varchar', length: 10}) 
     telefono: string;
-    @Column({type: 'integer', default: 1})
+    @Column({type: 'integer', default: "1"})
     estado: number;
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
+
+    static getAllDirectors(){
+        return this.createQueryBuilder("dirprograma")
+        .select([
+          "dirprograma.id",
+          "dirprograma.codigo",
+          "dirprograma.nombre",
+          "dirprograma.correo",
+          "dirprograma.telefono",
+          "dirprograma.estado",
+        ])
+        .getMany();
+    }
 
 }

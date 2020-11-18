@@ -4,6 +4,7 @@ import estudianteController from './estudiante.controller';
 import programaAcademicoController from "./programaAcademico.controller";
 import departamentoController from './departamento.controller';
 import adminController from './admin.controller';
+import directorController from './director.controller';
 
 
 const routes = {
@@ -12,7 +13,8 @@ const routes = {
   estudianteController,
   programaAcademicoController,
   departamentoController,
-  adminController
+  adminController,
+  directorController
 };
 
 export default routes;
