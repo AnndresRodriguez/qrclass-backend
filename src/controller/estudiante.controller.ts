@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import estudianteService from '../services/estudiante.service';
+import { IEstudiante } from '../models/interfaces/IEstudiante';
 
 class EstudianteController {
 
@@ -11,27 +12,47 @@ class EstudianteController {
     }
 
     async getAllEstudiantes(req: Request, res: Response){
-
         const { operation, message, data } =  await estudianteService.getAllEstudiantes();
         operation
          ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message }); 
+    }
+
+    async getEstudiante(req: Request, res: Response){
+
+        const { operation, message, data } =  await estudianteService.getEstudiante(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });
-        
-    }
-
-    getEstudiante(){
 
     }
 
-    createEstudiante(req: Request, res: Response){
+    async createEstudiante(req: Request, res: Response){
+
+        const newAdmin: IEstudiante = req.body;
+        const { operation, message, data } =  await estudianteService.createEstudiante(newAdmin);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    updateEstudiante(req: Request, res: Response){
+    async updateEstudiante(req: Request, res: Response){
+
+        const newEstudiante: IEstudiante = req.body;
+        const { operation, message, data } =  await estudianteService.updateEstudiante(newEstudiante.id, newEstudiante);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    desactivateEstudiante(req: Request, res: Response){
+    async desactivateEstudiante(req: Request, res: Response){
+
+        const { operation, message, data } =  await estudianteService.disableEstudiante(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 

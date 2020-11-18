@@ -43,7 +43,6 @@ export class Docente extends BaseEntity{
           "departamento.estado",
         ])
         .leftJoin("docente.departamento", "departamento")
-        .where("docente.estado = :estado", { estado: 1 })
         .getMany();
     }
 

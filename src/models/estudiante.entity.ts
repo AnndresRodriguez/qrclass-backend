@@ -25,4 +25,17 @@ export class Estudiante extends BaseEntity{
     @OneToMany(() => Matricula, matricula => matricula.estudiante)
     matriculas: Matricula[];
 
+    static getAllStudents(){
+        return this.createQueryBuilder("estudiante")
+        .select([
+          "estudiante.id",
+          "estudiante.codigo",
+          "estudiante.nombre",
+          "estudiante.correo",
+          "estudiante.telefono",
+          "estudiante.estado"
+        ])
+        .getMany();
+    }
+
 }
