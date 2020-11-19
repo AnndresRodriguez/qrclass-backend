@@ -122,9 +122,9 @@ class ProgramaAcademicoService {
     return !_.isEmpty(directorDocente);
   }
 
-  async existsDirector(id: string): Promise<boolean> {
+  async existsDirector(codigo: string): Promise<boolean> {
     const directorRepository = getRepository(DirPrograma);
-    const directorDocente = await directorRepository.find( { where: { id } });
+    const directorDocente = await directorRepository.find( { where: { codigo } });
     return !_.isEmpty(directorDocente);
   }
 
