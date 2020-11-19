@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import programaAcademicoService from '../services/programaAcademico.service';
+import { IProgramaAcademico } from '../models/interfaces/IProgramaAcademico';
 
 class ProgramaAcademicoController {
 
@@ -23,11 +24,25 @@ class ProgramaAcademicoController {
 
     }
 
-    createProgramaAcademico(req: Request, res: Response){
+    async createProgramaAcademico(req: Request, res: Response){
+
+       const newAcademicProgram: IProgramaAcademico = req.body;
+
+       const { operation, message, data } =  await programaAcademicoService.createProgramaAcademico(newAcademicProgram);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 
-    updateProgramaAcademico(req: Request, res: Response){
+    async updateProgramaAcademico(req: Request, res: Response){
+
+        const newAcademicProgram: IProgramaAcademico = req.body;
+
+        const { operation, message, data } =  await programaAcademicoService.updateProgramaAcademico(newAcademicProgram.id, newAcademicProgram);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 

@@ -46,6 +46,10 @@ export class HttpResponse {
       this.message = "Not records found";
       this.data = [];
     }
+
+    errorEntityDuplicated(nameEntity: string, id: any){
+      this.message = `${nameEntity} with ID ${id} is already in our database`;
+    }
   
     errorDuplicated() {
       this.message = "This record is already in our database";

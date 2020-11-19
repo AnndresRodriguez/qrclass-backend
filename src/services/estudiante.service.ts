@@ -90,7 +90,7 @@ class EstudianteService {
       if (studentToUpdate !== undefined) {
         const studentToSave = await this.setDataEstudiante(studentToUpdate, newDataEstudiante);
         const studentUpdated = await studentToSave.save();
-        httpResponse.update("Student", studentUpdated);
+        httpResponse.update("Estudiante", studentUpdated);
         return httpResponse;
       }
       httpResponse.errorNotFoundID("Docente", id);

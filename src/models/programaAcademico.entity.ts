@@ -37,6 +37,7 @@ export class ProgramaAcademico extends BaseEntity{
           "programaacademico.nombre",
           "programaacademico.correo",
           "programaacademico.estado",
+          "dirprograma.id",
           "dirprograma.codigo",
           "dirprograma.nombre",
           "dirprograma.estado",
@@ -44,6 +45,10 @@ export class ProgramaAcademico extends BaseEntity{
         .leftJoin("programaacademico.dirPrograma", "dirprograma")
         .getMany();
     }
+
+    
+
+
 
 
 

@@ -1,7 +1,8 @@
 export interface IProgramaAcademico {
     id: number;
-    codigo: string;
     nombre: string;
+    codigo: string;
     correo: string;
+    estado: number;
     idDirector: number;  
 }
