@@ -1,6 +1,4 @@
 import { Request, Response, Router } from 'express';
-import adminService from '../services/admin.service';
-import { IAdmin } from '../models/interfaces/IAdmin';
 
 class HorarioController {
 
@@ -11,12 +9,29 @@ class HorarioController {
         this.routes();
     }
 
-    async assignSchedule(req: Request, res: Response){
+    async assignHorario(req: Request, res: Response){
 
     }
 
+    async getHorario(req: Request, res: Response){
+
+    }
+
+    async getHorarioDocente(req: Request, res: Response){
+
+    }
+
+    async createHorario(req: Request, res: Response){
+
+    }
+
+
+
     routes() {
-        this.router.post("/", this.assignSchedule); 
+        this.router.get("/", this.getHorario); 
+        this.router.get("/:id", this.getHorarioDocente); 
+        this.router.post("/", this.createHorario); 
+        this.router.post("/asignar", this.assignHorario); 
     }
 }
 
