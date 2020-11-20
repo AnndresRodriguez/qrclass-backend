@@ -42,6 +42,10 @@ class ConfigController {
 
     }
 
+    async sendEmailEstudiante(){
+        
+    }
+
  
     routes() {
 
