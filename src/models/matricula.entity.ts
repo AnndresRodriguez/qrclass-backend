@@ -22,6 +22,8 @@ export class Matricula extends BaseEntity{
     @Column({type: 'integer', default: "1"})
     estado: number;
 
+    
+
 
     
 }

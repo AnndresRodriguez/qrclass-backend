@@ -39,4 +39,19 @@ export class Materia extends BaseEntity{
     @OneToMany(() => Matricula, matricula => matricula.materia)
     matriculas: Matricula[];
 
+    static getAllMaterias(){
+
+        return this.createQueryBuilder("materia")
+        .select([
+          "materia.id",
+          "materia.codigo",
+          "materia.nombre",
+          "materia.correo",
+          "materia.telefono",
+          "materia.estado",
+        ])
+        .getMany();
+
+    }
+
 }
