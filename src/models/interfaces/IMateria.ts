@@ -4,7 +4,7 @@ export interface IMateria {
     idProgramaAcademico: number;
     nombre: string;
     codigo: string;
-    noEstudiantes: number;
-    noCreditos: number;
+    noestudiantes: number;
+    nocreditos: number;
     estado: number;
 }

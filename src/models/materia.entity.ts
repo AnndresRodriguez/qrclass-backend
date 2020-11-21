@@ -44,14 +44,17 @@ export class Materia extends BaseEntity{
         return this.createQueryBuilder("materia")
         .select([
           "materia.id",
-          "materia.codigo",
           "materia.nombre",
-          "materia.correo",
-          "materia.telefono",
+          "materia.codigo",
+          "materia.noestudiantes",
+          "materia.nocreditos",
           "materia.estado",
         ])
+        .leftJoin("materia.docente", "docente")
+        .leftJoin("materia.programaAcademico", "programaAcademico")
         .getMany();
-
     }
+
+    
 
 }

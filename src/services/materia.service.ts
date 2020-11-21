@@ -10,13 +10,13 @@ import { ProgramaAcademico } from '../models/programaAcademico.entity';
 class MateriaService {
   async getAllMaterias() {
     const httpResponse = new HttpResponse();
-    // const allAdmins = await Admin.getAllAdmins();
+    const allStudents = await Materia.getAllMaterias();
 
-    // if (!_.isEmpty(allAdmins)) {
-    //   httpResponse.findAll(allAdmins);
-    //   return httpResponse;
-    // }
-
+    if (!_.isEmpty(allStudents)) {
+      httpResponse.findAll(allStudents);
+      return httpResponse;
+    }
+ 
     httpResponse.emptyRecords();
     return httpResponse;
   }
@@ -80,8 +80,10 @@ class MateriaService {
        const materiaRepository = getRepository(Materia);
        const docenteRepository = getRepository(Docente);
        const programaRepository = getRepository(ProgramaAcademico);
+
+       const keyToFind = { id: idMateria }
        
-       const materiaToUpdate = await materiaRepository.findOne(idMateria);
+       const materiaToUpdate = await materiaRepository.findOne(keyToFind);
        const docente = await docenteRepository.findOne(newMateria.idDocente); 
        const programa = await programaRepository.findOne(newMateria.idProgramaAcademico); 
 
@@ -91,8 +93,8 @@ class MateriaService {
 
                   const materiaToSave = await this.setDataMateria(materiaToUpdate, newMateria, docente, programa);
 
-                  const materiaUpdated =  await materiaToSave.save();
-                  httpResponse.update('Materia', materiaUpdated);
+                  // const materiaUpdated =  await materiaToSave.save();
+                  httpResponse.update('Materia', materiaToSave);
                   return httpResponse; 
               }
               httpResponse.errorNotFoundID('Programa Academico', newMateria.idProgramaAcademico);
@@ -134,13 +136,30 @@ class MateriaService {
   async setDataMateria(currentMateria: Materia, newDataMateria: IMateria, docente: Docente,
     programa: ProgramaAcademico) {
 
-     currentMateria.docente = docente;
-     currentMateria.programaAcademico = programa;
-     currentMateria.nombre = newDataMateria.nombre;  
-     currentMateria.codigo = newDataMateria.codigo;
-     currentMateria.noestudiantes = newDataMateria.noEstudiantes;
-     currentMateria.nocreditos = newDataMateria.noCreditos;
-     return currentMateria;
+
+      const materiaRepository = await getRepository(Materia)
+      .createQueryBuilder()
+      .update()
+      .set(
+            { 
+              nombre: newDataMateria.nombre,
+              codigo: newDataMateria.codigo,
+              noestudiantes: newDataMateria.noestudiantes, 
+              nocreditos: newDataMateria.nocreditos, 
+              docente: docente,
+              programaAcademico: programa
+            }
+        )
+        .where("id = :id", { id: currentMateria.id })
+        .execute();
+    
+    //  currentMateria.docente = docente;
+    //  currentMateria.programaAcademico = programa;
+    //  currentMateria.nombre = newDataMateria.nombre;  
+    //  currentMateria.codigo = newDataMateria.codigo;
+    //  currentMateria.noestudiantes = +newDataMateria.noestudiantes;
+    //  currentMateria.nocreditos = +newDataMateria.nocreditos;
+     return materiaRepository;
  
   }
 

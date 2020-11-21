@@ -42,6 +42,8 @@ class MateriaController {
     async updateMateria(req: Request, res: Response){
 
         const newMateria: IMateria = req.body;
+
+        console.log(newMateria)
         const { operation, message, data } =  await materiaService.updateMateria(newMateria.id, newMateria);
         operation
          ? res.status(200).json({ operation, message, data })
