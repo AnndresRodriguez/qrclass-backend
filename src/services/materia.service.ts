@@ -23,16 +23,22 @@ class MateriaService {
 
   async getMateria(id: number) {
     const httpResponse = new HttpResponse();
-    // const adminRepository = getRepository(Admin);
-    // const admin = await adminRepository.findOne(id);
+    const materiaToFind = await Materia.getMateria(id);
+    if(!_.isEmpty(materiaToFind)){ 
 
-    // if (admin !== undefined) {
-    //   httpResponse.findOne(admin);
-    //   return httpResponse;
+       httpResponse.findOne(materiaToFind);
+       return httpResponse;
+    }
+    httpResponse.errorNotFoundID('Materia', id);
+    return httpResponse;
+  
+
+    // if(!_.isNumber(id)){
     // }
 
-    httpResponse.errorNotFoundID("Admin", id);
-    return httpResponse;
+    // httpResponse.errorFormatInvalid(id);
+    // return httpResponse;
+
   }
 
   async createMateria(materia: IMateria) {
@@ -93,7 +99,6 @@ class MateriaService {
 
                   const materiaToSave = await this.setDataMateria(materiaToUpdate, newMateria, docente, programa);
 
-                  // const materiaUpdated =  await materiaToSave.save();
                   httpResponse.update('Materia', materiaToSave);
                   return httpResponse; 
               }
@@ -109,33 +114,9 @@ class MateriaService {
        return httpResponse;
   }
 
-  async desactivateMateria(idAdmin: number) {
-    // const httpResponse = new HttpResponse();
-    // if (_.isNumber(+idAdmin)) {
-    //   const adminRepository = getRepository(Admin);
-    //   const adminToDisable = await adminRepository.findOne(idAdmin);
-    //   if (adminToDisable !== undefined) {
-    //     adminToDisable.estado =
-    //       adminToDisable.estado == 0
-    //         ? (adminToDisable.estado = 1)
-    //         : (adminToDisable.estado = 0);
-
-    //     const adminDisabled = await adminToDisable.save();
-    //     httpResponse.update("admin", adminDisabled);
-    //     return httpResponse;
-    //   }
-
-    //   httpResponse.errorNotFoundID("admin", idAdmin);
-    //   return httpResponse;
-    // }
-
-    // httpResponse.errorFormatInvalid(idAdmin);
-    // return httpResponse;
-  }
 
   async setDataMateria(currentMateria: Materia, newDataMateria: IMateria, docente: Docente,
     programa: ProgramaAcademico) {
-
 
       const materiaRepository = await getRepository(Materia)
       .createQueryBuilder()
@@ -152,24 +133,10 @@ class MateriaService {
         )
         .where("id = :id", { id: currentMateria.id })
         .execute();
-    
-    //  currentMateria.docente = docente;
-    //  currentMateria.programaAcademico = programa;
-    //  currentMateria.nombre = newDataMateria.nombre;  
-    //  currentMateria.codigo = newDataMateria.codigo;
-    //  currentMateria.noestudiantes = +newDataMateria.noestudiantes;
-    //  currentMateria.nocreditos = +newDataMateria.nocreditos;
+
      return materiaRepository;
  
   }
-
-//   async validateDocumentAdmin(documento: string): Promise<boolean> {
-//     const docenteRepository = getRepository(Admin);
-//     const docenteFinded = await docenteRepository.find({
-//       where: { documento: documento },
-//     });
-//     return !_.isEmpty(docenteFinded);
-//   }
 
     async validateCodeMateria(materiaCodigo: string): Promise<boolean> {
         const materiaRepository = getRepository(Materia);

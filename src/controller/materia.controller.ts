@@ -22,10 +22,10 @@ class MateriaController {
 
     async getMateria(req: Request, res: Response){
 
-        // const { operation, message, data } =  await estudianteService.getEstudiante(parseInt(req.params.id));
-        // operation
-        //  ? res.status(200).json({ operation, message, data })
-        //  : res.status(202).json({ operation, message });
+        const { operation, message, data } =  await materiaService.getMateria(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message }); 
 
     }
 
@@ -43,7 +43,6 @@ class MateriaController {
 
         const newMateria: IMateria = req.body;
 
-        console.log(newMateria)
         const { operation, message, data } =  await materiaService.updateMateria(newMateria.id, newMateria);
         operation
          ? res.status(200).json({ operation, message, data })
