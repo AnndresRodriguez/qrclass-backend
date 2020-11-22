@@ -1,5 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Matricula } from './matricula.entity';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+// import { Matricula } from './matricula.entity';
 
 @Entity('estudiante')
 export class Estudiante extends BaseEntity{
@@ -22,8 +22,6 @@ export class Estudiante extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @OneToMany(() => Matricula, matricula => matricula.estudiante)
-    matriculas: Matricula[];
 
     static getAllStudents(){
         return this.createQueryBuilder("estudiante")

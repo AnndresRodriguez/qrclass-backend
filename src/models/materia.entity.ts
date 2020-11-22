@@ -1,8 +1,9 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Clase } from './clase.entity';
 import { ProgramaAcademico } from './programaAcademico.entity';
-import { Matricula } from './matricula.entity';
+// import { Matricula } from './matricula.entity';
 import { Docente } from './docente.entity';
+import { Estudiante } from './estudiante.entity';
 
 @Entity('materia')
 export class Materia extends BaseEntity{
@@ -36,8 +37,9 @@ export class Materia extends BaseEntity{
     @OneToMany(() => Clase, clase => clase.materia)
     clases: Clase[];
 
-    @OneToMany(() => Matricula, matricula => matricula.materia)
-    matriculas: Matricula[];
+    @ManyToMany(() => Estudiante, { cascade: true })
+    @JoinTable({ name: 'matricula' })
+    estudiantes: Estudiante[];
 
     static getAllMaterias(){
 
