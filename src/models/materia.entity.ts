@@ -58,6 +58,7 @@ export class Materia extends BaseEntity{
           "programaacademico.correo",
 
         ])
+        .leftJoin("materia.docente", "docente")
         .leftJoin("materia.programaAcademico", "programaacademico")
         .getMany();
     }

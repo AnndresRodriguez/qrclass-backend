@@ -32,13 +32,6 @@ class MateriaService {
     httpResponse.errorNotFoundID('Materia', id);
     return httpResponse;
   
-
-    // if(!_.isNumber(id)){
-    // }
-
-    // httpResponse.errorFormatInvalid(id);
-    // return httpResponse;
-
   }
 
   async createMateria(materia: IMateria) {
