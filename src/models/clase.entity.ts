@@ -28,4 +28,20 @@ export class Clase extends BaseEntity{
     @OneToMany(() => Asistencia, asistencia => asistencia.clase)
     asistencias: Asistencia[];
 
+    static getAllClases(){
+        return this.createQueryBuilder()
+        .select([
+            "hora.idHora",
+            "hora.horainicio",
+            "hora.horafinal",
+            
+        ])
+        .leftJoin("clase.idHora", "hora")
+        .leftJoin("clase.idMateria", "materia")
+        .leftJoin("clase.idDia", "dia")
+        .getMany();
+
+    }
+
+
 }
