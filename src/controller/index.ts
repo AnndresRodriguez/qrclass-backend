@@ -7,6 +7,7 @@ import adminController from './admin.controller';
 import directorController from './director.controller';
 import materiasController from './materia.controller';
 import claseController from './clase.controller';
+import horaController from './hora.controller';
 
 
 const routes = {
@@ -18,7 +19,8 @@ const routes = {
   adminController,
   directorController,
   materiasController,
-  claseController
+  claseController,
+  horaController
 };
 
 export default routes;

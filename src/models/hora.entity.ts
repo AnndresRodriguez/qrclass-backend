@@ -18,5 +18,15 @@ export class Hora extends BaseEntity{
 
     @OneToMany(() => Clase, clase => clase.hora)
     clases: Clase[];
+
+    static getAllHours(){
+        return this.createQueryBuilder("hora").
+        select([
+            "hora.idHora",
+            "hora.horainicio",
+            "hora.horafinal"
+        ])
+        .getMany();
+    }
     
 }
