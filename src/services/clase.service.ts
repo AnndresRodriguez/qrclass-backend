@@ -22,7 +22,12 @@ class ClaseService {
     return httpResponse;
   }
 
-  async getClase(id: number) {
+  async getClase(idMateria: number) {
+
+    const httpResponse = new HttpResponse();
+    
+
+    return httpResponse;
     
   }
 
@@ -36,18 +41,20 @@ class ClaseService {
 
     const materiaClase = await materiaRepository.findOne(nuevaClase.idMateria);
     const diaClase = await diaRepository.findOne(nuevaClase.idDia);
-    const horaClase = await horaRepository.findOne(nuevaClase.idHora);
+    // const horaClase = await horaRepository.findOne(nuevaClase.idHora);
 
     if(materiaClase !== undefined){
         if(diaClase !== undefined){
-            if(horaClase !== undefined){
-                
-                 const materiaToCreate = claseRepository.create({ materia: materiaClase, dia: diaClase, hora: horaClase });
 
-                 const materiaCreated = await materiaToCreate.save();
-                 httpResponse.create('Clase', materiaCreated);
-                 return httpResponse;
-            }
+            
+            // if(horaClase !== undefined){
+                
+                //  const materiaToCreate = claseRepository.create({ materia: materiaClase, dia: diaClase, hora: horaClase });
+
+                //  const materiaCreated = await materiaToCreate.save();
+                //  httpResponse.create('Clase', materiaCreated);
+                //  return httpResponse;
+            // }
 
             httpResponse.errorNotFoundID('Hora', nuevaClase.idHora);
             return httpResponse;
@@ -69,6 +76,17 @@ class ClaseService {
   async updateClase(id: number, newClase: IClase) {
    
   }
+
+  async getInfoHours(hours: Array<number>){
+
+      hours.map( hour => {
+
+        
+
+      })
+
+  }
+
 }
 
 const claseService = new ClaseService();

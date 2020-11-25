@@ -31,11 +31,11 @@ class ClaseController {
 
     async createClase(req: Request, res: Response){
 
-        // const newClase: IClase = req.body;
-        // const { operation, message, data } =  await ClaseService.createClase(newClase);
-        // operation
-        //  ? res.status(200).json({ operation, message, data })
-        //  : res.status(202).json({ operation, message });
+        const newClase: IClase = req.body;
+        const { operation, message, data } =  await claseService.createClase(newClase);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
     }
 
     async updateClase(req: Request, res: Response){

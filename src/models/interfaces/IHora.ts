@@ -1,5 +1,4 @@
 export interface IHora {
-    asistio: string;
-    horaInicio: Date;
-    horaFinal: Date
+    horaInicio: string;
+    horaFinal: string;
 }

@@ -59,6 +59,7 @@ export default class Server {
       this.app.use('/materias', routes.materiasController);
       this.app.use('/programa-academicos', routes.programaAcademicoController);
       this.app.use('/departamentos', routes.departamentoController);
+      this.app.use('/clases', routes.claseController);
       this.app.use(express.static("public"));
     }
   

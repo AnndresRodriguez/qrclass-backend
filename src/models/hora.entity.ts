@@ -7,9 +7,9 @@ export class Hora extends BaseEntity{
 
     @PrimaryGeneratedColumn('increment')
     idHora: number;
-    @Column({type: 'time' })
+    @Column({type: 'varchar', length: 20 })
     horainicio: Date
-    @Column({type: 'time' })
+    @Column({type: 'varchar', length: 20 })
     horafinal: Date
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
