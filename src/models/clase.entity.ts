@@ -34,14 +34,23 @@ export class Clase extends BaseEntity{
             "hora.idHora",
             "hora.horainicio",
             "hora.horafinal",
-            
+            "dia.dia",
+            "materia.id",
+            "materia.nombre",
+            "materia.codigo",
+            "materia.noestudiantes",
+            "materia.nocreditos",
+            "docente.id",
+            "docente.codigo",
+            "docente.nombre",
+            "docente.correo",
+            "docente.telefono",
         ])
         .leftJoin("clase.idHora", "hora")
         .leftJoin("clase.idMateria", "materia")
         .leftJoin("clase.idDia", "dia")
+        .leftJoin("materia.docente", "docente")
         .getMany();
 
     }
-
-
 }

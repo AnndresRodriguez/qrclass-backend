@@ -13,10 +13,10 @@ class ClaseController {
 
     async getAllClases(req: Request, res: Response){
 
-        // const { operation, message, data } =  await ClaseService.getAllClases();
-        // operation
-        //  ? res.status(200).json({ operation, message, data })
-        //  : res.status(202).json({ operation, message });
+        const { operation, message, data } =  await claseService.getAllClases();
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
 
     }
 

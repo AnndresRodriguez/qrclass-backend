@@ -12,11 +12,11 @@ import { Materia } from '../models/materia.entity';
 class ClaseService {
   async getAllClases() {
     const httpResponse = new HttpResponse();
-    // const allDepartamentos = await Departamento.getAllDepartments();
-    // if(!_.isEmpty(allDepartamentos)){
-    //     httpResponse.findAll(allDepartamentos);
-    //     return httpResponse;
-    // }
+    const allClases = await Clase.getAllClases();
+    if(!_.isEmpty(allClases)){
+        httpResponse.findAll(allClases);
+        return httpResponse;
+    }
 
     httpResponse.emptyRecords();
     return httpResponse;
