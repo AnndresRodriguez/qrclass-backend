@@ -31,7 +31,7 @@ class ClaseService {
     
   }
 
-  async createClase(nuevaClase: IClase) {
+  async createClase(nuevaClase: IClase, dataHorario: {}) {
       
     const httpResponse = new HttpResponse();
     const horaRepository = getRepository(Hora);
@@ -40,28 +40,50 @@ class ClaseService {
     const claseRepository = getRepository(Clase);
 
     const materiaClase = await materiaRepository.findOne(nuevaClase.idMateria);
-    const diaClase = await diaRepository.findOne(nuevaClase.idDia);
+    // const diaClase = await diaRepository.findOne(nuevaClase.idDia);
     // const horaClase = await horaRepository.findOne(nuevaClase.idHora);
 
     if(materiaClase !== undefined){
-        if(diaClase !== undefined){
-
+        // if(diaClase !== undefined){
             
-            // if(horaClase !== undefined){
+
+           
+          
+        // dataHorario>   { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
+
+                const days = Object.keys(dataHorario);
                 
-                //  const materiaToCreate = claseRepository.create({ materia: materiaClase, dia: diaClase, hora: horaClase });
+            
 
-                //  const materiaCreated = await materiaToCreate.save();
-                //  httpResponse.create('Clase', materiaCreated);
-                //  return httpResponse;
-            // }
+               //> ['0', '1', '2', '3', '4']
 
-            httpResponse.errorNotFoundID('Hora', nuevaClase.idHora);
-            return httpResponse;
-        }
+               /**
+                * for (let key in dataHorario){
+                *    const hours = dataHorario[key]
+                *    hours.map( hour => {
+                *      
+                *    const horaClase = await horaRepository.findOne(hour);
+                *    if (horaClase != undefined){
+                * 
+                *         const diaClase = await diaRepository.findOne(key);
+                *         if(diaClase != undefined){
+                *         
+                *         }
+                * 
+                *           
+                * 
+                * 
+                *    }
+                * 
+                *         
+                * } )
+                *     
+                    
+                  }
+                
+                 */
 
-        httpResponse.errorNotFoundID('Día', nuevaClase.idDia);
-        return httpResponse;
+          
     }
 
     httpResponse.errorNotFoundID('Materia', nuevaClase.idMateria);
