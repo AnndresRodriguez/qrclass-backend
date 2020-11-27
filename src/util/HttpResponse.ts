@@ -14,6 +14,13 @@ export class HttpResponse {
       this.message = `${nameEntity} created successfully`;
       this.data = dataCreated;
     }
+
+    createMany(nameEntity: string, dataCreated: []) {
+      this.operation = true;
+      this.message = `${nameEntity} created successfully`;
+      this.data = dataCreated;
+    }
+  
   
     update(nameEntity: string, dataCreated: object) {
       this.operation = true;

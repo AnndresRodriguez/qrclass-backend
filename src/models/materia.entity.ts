@@ -4,6 +4,7 @@ import { ProgramaAcademico } from './programaAcademico.entity';
 // import { Matricula } from './matricula.entity';
 import { Docente } from './docente.entity';
 import { Estudiante } from './estudiante.entity';
+import { Dia } from './dia.entity';
 
 @Entity('materia')
 export class Materia extends BaseEntity{
@@ -40,6 +41,10 @@ export class Materia extends BaseEntity{
     @ManyToMany(() => Estudiante, { cascade: true })
     @JoinTable({ name: 'matricula' })
     estudiantes: Estudiante[];
+
+    @ManyToMany(() => Dia, { cascade: true })
+    @JoinTable({ name: 'clase' })
+    dias: Dia[];
 
     static getAllMaterias(){
 

@@ -1,6 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinTable } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Clase } from './clase.entity';
-
+import { Hora } from './hora.entity';
 
 @Entity('dia')
 export class Dia extends BaseEntity{
@@ -14,7 +14,10 @@ export class Dia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @OneToMany(() => Clase, clase => clase.dia)
-    clases: Clase[];
+    @OneToMany(() => Hora, hora => hora.dia)
+    horas: Hora[];
+
+    @ManyToOne(() => Clase, clase => clase.dia )
+    clase: Clase;
     
 }

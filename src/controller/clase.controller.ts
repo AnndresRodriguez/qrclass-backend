@@ -32,7 +32,7 @@ class ClaseController {
     async createClase(req: Request, res: Response){
 
         const newClase: IClase = req.body;
-        const { operation, message, data } =  await claseService.createClase(newClase);
+        const { operation, message, data } =  await claseService.createClase(newClase, req.body.horario);
         operation
          ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });

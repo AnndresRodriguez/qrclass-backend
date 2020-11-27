@@ -1,6 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
-import { Clase } from './clase.entity';
-
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
+import { Dia } from './dia.entity';
 
 @Entity('hora')
 export class Hora extends BaseEntity{
@@ -16,8 +15,8 @@ export class Hora extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @OneToMany(() => Clase, clase => clase.hora)
-    clases: Clase[];
+    @ManyToOne(() => Dia, dia => dia.horas)
+    dia: Dia
 
     static getAllHours(){
         return this.createQueryBuilder("hora").

@@ -1,23 +1,17 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinTable, JoinColumn } from 'typeorm';
-import { Hora } from './hora.entity';
 import { Asistencia } from './asistencia.entity';
 import { Materia } from './materia.entity';
 import { Dia } from './dia.entity';
 
-
 @Entity('clase')
 export class Clase extends BaseEntity{
     
-    @ManyToOne(() => Hora, hora => hora.idHora, { primary: true })
-    @JoinColumn({ name: "idHora" })
-    hora: Hora;
-
     @ManyToOne(() => Materia, materia => materia.clases, { primary: true })
-    @JoinColumn({ name: "idMateria" })
+    @JoinColumn({ name: "Materia_id" })
     materia: Materia;
    
-    @ManyToOne(() => Dia, dia => dia.clases, { primary: true })
-    @JoinColumn({ name: "idDia" })
+    @ManyToOne(() => Dia, dia => dia.clase, { primary: true })
+    @JoinColumn({ name: "Dia_idDia" })
     dia: Dia;
 
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
@@ -46,9 +40,8 @@ export class Clase extends BaseEntity{
             "docente.correo",
             "docente.telefono",
         ])
-        .leftJoin("clase.idHora", "hora")
-        .leftJoin("clase.idMateria", "materia")
-        .leftJoin("clase.idDia", "dia")
+        .leftJoin("clase.Materia_id", "materia")
+        .leftJoin("clase.Dia_idDia", "dia")
         .leftJoin("materia.docente", "docente")
         .getMany();
 

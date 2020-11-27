@@ -3,11 +3,10 @@ import fp from "lodash/fp";
 import _ from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
 import { IClase } from './../models/interfaces/IClase';
-import { getRepository } from 'typeorm';
+import { getRepository, ObjectID } from 'typeorm';
 import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
-
 
 class ClaseService {
   async getAllClases() {
@@ -31,59 +30,52 @@ class ClaseService {
     
   }
 
-  async createClase(nuevaClase: IClase, dataHorario: {}) {
+  async createClase(nuevaClase: IClase, dataHorario: any) {
       
     const httpResponse = new HttpResponse();
+    
     const horaRepository = getRepository(Hora);
     const diaRepository = getRepository(Dia);
-    const materiaRepository = getRepository(Materia);
     const claseRepository = getRepository(Clase);
+    const materiaRepository = getRepository(Materia);
 
     const materiaClase = await materiaRepository.findOne(nuevaClase.idMateria);
     // const diaClase = await diaRepository.findOne(nuevaClase.idDia);
     // const horaClase = await horaRepository.findOne(nuevaClase.idHora);
 
-    if(materiaClase !== undefined){
-        // if(diaClase !== undefined){
-            
+    if(materiaClase !== undefined){ 
+       
+        // dataHorario > { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
 
-           
-          
-        // dataHorario>   { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
 
-                const days = Object.keys(dataHorario);
-                
-            
+        const days = Object.keys(dataHorario);
+        //> ['0', '1', '2', '3', '4']
 
-               //> ['0', '1', '2', '3', '4']
 
-               /**
-                * for (let key in dataHorario){
-                *    const hours = dataHorario[key]
-                *    hours.map( hour => {
-                *      
-                *    const horaClase = await horaRepository.findOne(hour);
-                *    if (horaClase != undefined){
-                * 
-                *         const diaClase = await diaRepository.findOne(key);
-                *         if(diaClase != undefined){
-                *         
-                *         }
-                * 
-                *           
-                * 
-                * 
-                *    }
-                * 
-                *         
-                * } )
-                *     
-                    
-                  }
-                
-                 */
 
-          
+        const classesInfo = days.map( day => { return { dia: day, horas: dataHorario[day] } } ) 
+
+
+
+        
+        classesInfo.map( async info => {
+
+            const day = await this.createDay(info.dia);
+
+
+            info.horas.forEach(async (idhora: number) => {
+
+              const hour = await this.createHour(idhora);
+              const claseToCreate = claseRepository.create({ materia: materiaClase, dia: day });
+
+              const claseCreated = await claseToCreate.save();
+
+            });
+
+        });
+
+        httpResponse.create('Clase', materiaClase);
+                 
     }
 
     httpResponse.errorNotFoundID('Materia', nuevaClase.idMateria);
@@ -99,14 +91,60 @@ class ClaseService {
    
   }
 
-  async getInfoHours(hours: Array<number>){
+  async createInfoClass(materia: Materia, dataInfo: {}[]){
 
-      hours.map( hour => {
+      
 
-        
 
+  }
+
+
+  async assignHourToDay(hours: Array<number>, dia: Dia){
+  
+      const horaRepository = getRepository(Hora);
+
+      const hoursCreated = [];
+
+      const allHours = hours.map( async hour => {
+         const hourToFind = await horaRepository.findOne(hour);
+         if(hourToFind !== undefined){
+              dia.horas.push(hourToFind);
+           if(dia.horas.length == hours.length){
+              return dia;
+           }
+         }
+         return dia;
       })
 
+      const day = await Promise.all(allHours);
+      return day
+
+
+  }
+
+
+  async createHour(hour: number){
+
+    const horaRepository = getRepository(Hora);
+    const newHour = await horaRepository.findOne(hour);
+
+    if(newHour !== undefined){
+         return newHour;
+    }
+
+    return new Hora();
+  }
+
+  async createDay(day: number | string){
+
+  
+    const diaRepository = getRepository(Dia);
+    const newday = await diaRepository.findOne(day);
+
+    if(newday !== undefined){
+         return newday;
+    }
+    return new Dia();
   }
 
 }
