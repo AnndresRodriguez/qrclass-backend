@@ -17,7 +17,7 @@ export class Docente extends BaseEntity{
     @Column({type: 'integer', default: "1"})
     estado: number;
 
-    @ManyToOne(() => Departamento, departamento => departamento.docentes)
+    @ManyToOne(() => Departamento, departamento => departamento.docentes, { primary: true })
     @JoinColumn({ name: "idDepartamento" })
     departamento: Departamento;
 
@@ -43,7 +43,7 @@ export class Docente extends BaseEntity{
           "departamento.estado",
         ])
         .leftJoin("docente.departamento", "departamento")
-        .leftJoin("docente.materias", "departamento")
+        .leftJoin("docente.materias", "materia")
         .getMany();
     }
 

@@ -11,13 +11,13 @@ export class Materia extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    // @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
-    @ManyToOne(() => Docente, docente => docente.materias)
+    @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
+    // @ManyToOne(() => Docente, docente => docente.materias)
     @JoinColumn({ name: "idDocente" })
     docente: Docente;
 
-    // @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
-    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias)
+    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
+    // @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias)
     @JoinColumn({ name: "idProgramaAcademico" })
     programaAcademico: ProgramaAcademico;
 

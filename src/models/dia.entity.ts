@@ -16,7 +16,7 @@ export class Dia extends BaseEntity{
     updatedAt: Date
 
 
-    @ManyToMany(() => Hora, { cascade: true })
+    @ManyToMany(() => Hora, { cascade: false })
     @JoinTable({name: 'horario'})
     horas: Hora[];
 

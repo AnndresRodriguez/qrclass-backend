@@ -6,7 +6,7 @@ import { Dia } from './dia.entity';
 export class Hora extends BaseEntity{
 
     @PrimaryGeneratedColumn('increment')
-    idHora: number;
+    id: number;
     @Column({type: 'varchar', length: 20 })
     horainicio: Date
     @Column({type: 'varchar', length: 20 })

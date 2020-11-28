@@ -30,8 +30,6 @@ class ClaseService {
     // console.log(idMateria)
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
-    const docenteRepository = getRepository(Docente);
-    const programaRepository = getRepository(ProgramaAcademico);
     const materiaClase = await materiaRepository.findOne({ id: dataMateria.idMateria })
  
     if(materiaClase !== undefined){ 
@@ -57,14 +55,11 @@ class ClaseService {
           console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
           const day = await this.createDay(parseInt(days[indexDay]));
           // console.log(day);
-          // const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
+          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
           // console.log(hoursDay);
   
-
-
-
-          // day.horas = hoursDay;
-          // const daySaved = await day.save();
+          day.horas = hoursDay;
+          const daySaved = await day.save();
           daysCreated.push(day);
           indexDay++
 
@@ -126,8 +121,6 @@ class ClaseService {
           index++;
         }
       }
-
-      // console.log(hoursCreated);
 
       return hoursCreated;     
   }
