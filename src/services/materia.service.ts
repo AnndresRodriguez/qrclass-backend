@@ -23,7 +23,7 @@ class MateriaService {
 
   async getMateria(id: number) {
     const httpResponse = new HttpResponse();
-    const materiaToFind = await Materia.getMateria(id);
+    const materiaToFind = await Materia.getMateriasbyID(id);
     if(!_.isEmpty(materiaToFind)){ 
 
        httpResponse.findOne(materiaToFind);

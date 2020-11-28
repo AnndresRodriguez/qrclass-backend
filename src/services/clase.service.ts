@@ -1,12 +1,14 @@
-import { Clase } from './../models/clase.entity';
+//import { Clase } from './../models/clase.entity';
 import fp from "lodash/fp";
 import _, { reject } from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
 import { IClase } from './../models/interfaces/IClase';
-import { getRepository, ObjectID } from 'typeorm';
+import { getConnection, getRepository, ObjectID } from 'typeorm';
 import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
+import { Docente } from '../models/docente.entity';
+import { ProgramaAcademico } from '../models/programaAcademico.entity';
 
 class ClaseService {
  
@@ -22,17 +24,19 @@ class ClaseService {
 
  
 
-  async createClase(idMateria: number, dataHorario: any) {
+  async createClase(dataMateria: IClase, dataHorario: any) {
       
     console.log(dataHorario);
-    console.log(idMateria)
+    // console.log(idMateria)
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
-    const materiaClase = await materiaRepository.findOne({ id: idMateria });
-
-
+    const docenteRepository = getRepository(Docente);
+    const programaRepository = getRepository(ProgramaAcademico);
+    const materiaClase = await materiaRepository.findOne({ id: dataMateria.idMateria })
+ 
     if(materiaClase !== undefined){ 
        
+        
         // dataHorario > { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
         const daysCreated: Array<Dia> = [];
 
@@ -52,29 +56,37 @@ class ClaseService {
           console.log('Entre Al While')
           console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
           const day = await this.createDay(parseInt(days[indexDay]));
-          console.log(day);
-          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
+          // console.log(day);
+          // const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
           // console.log(hoursDay);
   
-          day.horas = hoursDay;
-          const daySaved = await day.save();
-          daysCreated.push(daySaved);
-          indexDay++
 
+
+
+          // day.horas = hoursDay;
+          // const daySaved = await day.save();
+          daysCreated.push(day);
+          indexDay++
 
         }
 
         console.log('Finalice el While')
 
-        materiaClase.dias = daysCreated;
-        const materiaCreated = await materiaClase.save();
+        console.log(materiaClase);
+
         indexDay = 0;
 
-        httpResponse.create('Materia', materiaClase);
-                 
+       
+        materiaClase.dias = daysCreated;
+        materiaClase.updatedAt = new Date();
+        const materiaCreated = await materiaClase.save();
+        httpResponse.create('Materia', materiaCreated);
+        return httpResponse;
+          
+                        
     }
 
-    httpResponse.errorNotFoundID('Materia', idMateria);
+    httpResponse.errorNotFoundID('Materia', dataMateria.idMateria);
     return httpResponse;
    
   }

@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
-import { Clase } from './clase.entity';
+// import { Clase } from './clase.entity';
 import { ProgramaAcademico } from './programaAcademico.entity';
 // import { Matricula } from './matricula.entity';
 import { Docente } from './docente.entity';
@@ -11,11 +11,13 @@ export class Materia extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
+    // @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
+    @ManyToOne(() => Docente, docente => docente.materias)
     @JoinColumn({ name: "idDocente" })
     docente: Docente;
 
-    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
+    // @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
+    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias)
     @JoinColumn({ name: "idProgramaAcademico" })
     programaAcademico: ProgramaAcademico;
 
@@ -35,14 +37,14 @@ export class Materia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date;
 
-    @OneToMany(() => Clase, clase => clase.materia)
-    clases: Clase[];
+    // @OneToMany(() => Clase, clase => clase.materia)
+    // clases: Clase[];
 
-    @ManyToMany(() => Estudiante, { cascade: true })
-    @JoinTable({ name: 'matricula' })
-    estudiantes: Estudiante[];
+    // @ManyToMany(() => Estudiante, { cascade: true })
+    // @JoinTable({ name: 'matricula' })
+    // estudiantes: Estudiante[];
 
-    @ManyToMany(() => Dia, { cascade: true })
+    @ManyToMany(() => Dia, { cascade: false })
     @JoinTable({ name: 'clase' })
     dias: Dia[];
 
@@ -75,7 +77,7 @@ export class Materia extends BaseEntity{
         .getMany();
     }
 
-    static getMateria(idMateria: number){
+    static getMateriasbyID(idMateria: number){
 
       return this.createQueryBuilder("materia")
         .select([
@@ -98,12 +100,9 @@ export class Materia extends BaseEntity{
         .leftJoin("materia.programaAcademico", "programaacademico")
         .where("materia.id = :id", { id: idMateria })
         .getMany();
-
-
-
     }
 
-
+  
     
 
 }

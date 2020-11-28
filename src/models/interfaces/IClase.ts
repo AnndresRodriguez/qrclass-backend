@@ -1,5 +1,5 @@
 export interface IClase {
-    idHora: number;
+    idDocente: number;
     idMateria: number;
-    idDia: number;
+    idPrograma: number;
 }
