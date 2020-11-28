@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
 import { Dia } from './dia.entity';
+// import { Horario } from './horario.entity';
 
 @Entity('hora')
 export class Hora extends BaseEntity{
@@ -15,8 +16,15 @@ export class Hora extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @ManyToOne(() => Dia, dia => dia.horas)
-    dia: Dia
+    // @ManyToMany(() => Dia, dia => dia.horas)
+    // dias: Dia[];
+
+    // @OneToMany(() => Horario, horario => horario.hora)
+    // horarios: Horario[];
+
+    // @ManyToOne(() => Dia, dia => dia.horas )
+    // @JoinColumn({ name: "idDia" })
+    // dia: Dia
 
     static getAllHours(){
         return this.createQueryBuilder("hora").

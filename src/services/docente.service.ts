@@ -23,9 +23,8 @@ class DocenteService {
   async getDocente(id: number) {
 
     const httpResponse = new HttpResponse();
-      const docenteRepository = getRepository(Docente);
-      const docente = await docenteRepository.findOne(id);
 
+      const docente = await Docente.getMattersDocente(id);
       if(docente !== undefined){
 
          httpResponse.findOne(docente);

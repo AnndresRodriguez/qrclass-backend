@@ -43,6 +43,7 @@ export class Docente extends BaseEntity{
           "departamento.estado",
         ])
         .leftJoin("docente.departamento", "departamento")
+        .leftJoin("docente.materias", "departamento")
         .getMany();
     }
 
@@ -62,6 +63,28 @@ export class Docente extends BaseEntity{
         .leftJoin("docente.departamento", "departamento")
         .where("docente.estado = :estado", { estado: 0 })
         .getMany();
+
+    }
+
+    static getMattersDocente(id: number){
+
+      return this.createQueryBuilder("docente")
+        .select([
+          "docente.id",
+          "docente.codigo",
+          "docente.nombre",
+          "docente.correo",
+          "docente.telefono",
+          "docente.estado",
+          "materia.nombre",
+          "materia.codigo",
+          "materia.noestudiantes",
+        ])
+        .leftJoin("docente.materias", "materia")
+        .where("docente.id = :id", { id: id })
+        .getMany();
+
+
 
     }
 

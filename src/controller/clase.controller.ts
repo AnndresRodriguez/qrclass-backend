@@ -13,10 +13,10 @@ class ClaseController {
 
     async getAllClases(req: Request, res: Response){
 
-        const { operation, message, data } =  await claseService.getAllClases();
-        operation
-         ? res.status(200).json({ operation, message, data })
-         : res.status(202).json({ operation, message });
+        // const { operation, message, data } =  await claseService.getAllClases();
+        // operation
+        //  ? res.status(200).json({ operation, message, data })
+        //  : res.status(202).json({ operation, message });
 
     }
 
@@ -31,8 +31,7 @@ class ClaseController {
 
     async createClase(req: Request, res: Response){
 
-        const newClase: IClase = req.body;
-        const { operation, message, data } =  await claseService.createClase(newClase, req.body.horario);
+        const { operation, message, data } = await claseService.createClase(parseInt(req.body.idMateria), req.body.horario)
         operation
          ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });

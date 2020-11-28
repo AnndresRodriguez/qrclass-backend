@@ -1,6 +1,7 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Clase } from './clase.entity';
 import { Hora } from './hora.entity';
+// import { Horario } from './horario.entity';
 
 @Entity('dia')
 export class Dia extends BaseEntity{
@@ -14,8 +15,21 @@ export class Dia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date
 
-    @OneToMany(() => Hora, hora => hora.dia)
+
+    @ManyToMany(() => Hora, { cascade: true })
+    @JoinTable({name: 'horario', 
+    joinColumn: {
+        name: "dia",
+        referencedColumnName: "idDia"
+    },
+    inverseJoinColumn: {
+        name: "hora",
+        referencedColumnName: "idHora"
+    }})
     horas: Hora[];
+
+    // @OneToMany(() => Horario, horario => horario.dia)
+    // horarios: Horario[]
 
     @ManyToOne(() => Clase, clase => clase.dia )
     clase: Clase;
