@@ -11,13 +11,13 @@ export class Materia extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
-    // @ManyToOne(() => Docente, docente => docente.materias)
+    // @ManyToOne(() => Docente, docente => docente.materias, { primary: true })
+    @ManyToOne(() => Docente, docente => docente.materias)
     @JoinColumn({ name: "idDocente" })
     docente: Docente;
 
-    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
-    // @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias)
+    // @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias, { primary: true })
+    @ManyToOne(() => ProgramaAcademico, programaAcademico => programaAcademico.materias)
     @JoinColumn({ name: "idProgramaAcademico" })
     programaAcademico: ProgramaAcademico;
 
@@ -105,23 +105,11 @@ export class Materia extends BaseEntity{
     static getMateriasbyDocente(idDocente: number){
 
       return this.createQueryBuilder("materia")
-        .select([
-          "materia.id",
-          "materia.nombre",
-          "materia.codigo",
-          "materia.noestudiantes",
-          "materia.nocreditos",
-          "materia.estado",
-          "dia.id",
-          "dia.dia"
-        ])
-        .leftJoin("materia.docente", "docente")
-        .leftJoin("materia.clase", "clase")
-        .leftJoin("clase.diaId", "dia")
-
-        
-        .where("docente.id = :id", { id: idDocente })
-        .getMany();
+      .leftJoin("materia.docente", "docente")
+      .leftJoinAndSelect("materia.dias", 'dia')
+      .leftJoinAndSelect("dia.horas", 'hora')
+      .where("docente.id = :id", { id: idDocente })
+      .getMany();
     }
 
   
