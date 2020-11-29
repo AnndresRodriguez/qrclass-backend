@@ -1,14 +1,12 @@
-//import { Clase } from './../models/clase.entity';
 import fp from "lodash/fp";
-import _, { reject } from "lodash";
+import _ from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
 import { IClase } from './../models/interfaces/IClase';
 import { getConnection, getRepository, ObjectID } from 'typeorm';
 import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
-import { Docente } from '../models/docente.entity';
-import { ProgramaAcademico } from '../models/programaAcademico.entity';
+
 
 class ClaseService {
  
@@ -38,14 +36,19 @@ class ClaseService {
         // dataHorario > { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
         const daysCreated: Array<Dia> = [];
 
+        
+
         console.log('dataHorario', dataHorario);
 
-        const days = Object.keys(dataHorario);
+        const days = dataHorario.keys();
 
         console.log('days', days);
 
         let indexDay = 0;
         //> ['0', '1', '2', '3', '4']
+
+
+        
 
         while(days.length !== daysCreated.length){
         
@@ -59,7 +62,7 @@ class ClaseService {
           // console.log(hoursDay);
   
           day.horas = hoursDay;
-          const daySaved = await day.save();
+          const daySaved = await day.save()
           daysCreated.push(day);
           indexDay++
 

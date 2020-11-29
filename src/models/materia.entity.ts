@@ -40,11 +40,11 @@ export class Materia extends BaseEntity{
     // @OneToMany(() => Clase, clase => clase.materia)
     // clases: Clase[];
 
-    // @ManyToMany(() => Estudiante, { cascade: true })
-    // @JoinTable({ name: 'matricula' })
-    // estudiantes: Estudiante[];
+    @ManyToMany(() => Estudiante, { cascade: true })
+    @JoinTable({ name: 'matricula' })
+    estudiantes: Estudiante[];
 
-    @ManyToMany(() => Dia, { cascade: false })
+    @ManyToMany(() => Dia, { cascade: true })
     @JoinTable({ name: 'clase' })
     dias: Dia[];
 

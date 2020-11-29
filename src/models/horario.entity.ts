@@ -6,6 +6,9 @@
 
 // @Entity('horario')
 // export class Horario extends BaseEntity{
+
+//     @PrimaryGeneratedColumn('increment')
+//     idHorario: number;
     
 //     // @ManyToOne(() => Hora, hora => hora.horarios, { primary: true })
 //     // @JoinColumn({ name: "Hora_idHora" })
