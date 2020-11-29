@@ -47,6 +47,9 @@ class ClaseService {
         let indexDay = 0;
         //> ['0', '1', '2', '3', '4']
 
+//         [ { dia: '1', horas: [ 2 ] }, { dia: '2', horas: [ 2, 3 ] } ]
+// dataHorario [ { dia: '1', horas: [ 2 ] }, { dia: '2', horas: [ 2, 3 ] } ]
+// days [ '0', '1' ]
 
         
 
@@ -58,7 +61,7 @@ class ClaseService {
           console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
           const day = await this.createDay(parseInt(days[indexDay]));
           // console.log(day);
-          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
+          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])].horas);
           // console.log(hoursDay);
   
           day.horas = hoursDay;
