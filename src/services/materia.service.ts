@@ -12,6 +12,7 @@ class MateriaService {
     const httpResponse = new HttpResponse();
     const allStudents = await Materia.getAllMaterias();
 
+
     if (!_.isEmpty(allStudents)) {
       httpResponse.findAll(allStudents);
       return httpResponse;
@@ -34,6 +35,21 @@ class MateriaService {
   
   }
 
+  async getMateriasByDocente(idDocente: number){
+
+    const httpResponse = new HttpResponse();
+    const materiasDocente = await Materia.getMateriasbyDocente(idDocente);
+    if(!_.isEmpty(materiasDocente)){ 
+      httpResponse.findOne(materiasDocente);
+      return httpResponse;
+   }
+   httpResponse.errorNotFoundID('Materia', idDocente);
+   return httpResponse;
+
+
+
+  }
+
   async createMateria(materia: IMateria) {
      
      const httpResponse = new HttpResponse();
@@ -43,7 +59,7 @@ class MateriaService {
      const programaRepository = getRepository(ProgramaAcademico);
     
      const existsMateria = await this.validateCodeMateria(materia.codigo);
-     const docente = await docenteRepository.findOne(materia.idDocente);
+     const docente = await docenteRepository.findOne({ id: materia.idDocente});
      const programaAcademico = await programaRepository.findOne(materia.idProgramaAcademico);
  
      if (!existsMateria) {
