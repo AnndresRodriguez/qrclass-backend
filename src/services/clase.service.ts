@@ -59,7 +59,7 @@ class ClaseService {
           console.log('daysCreated.length', daysCreated.length)
           console.log('Entre Al While')
           console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
-          const day = await this.createDay(parseInt(days[indexDay]));
+          const day = await this.createDay(parseInt(dataHorario[parseInt(days[indexDay])].dia));
           // console.log(day);
           const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])].horas);
           // console.log(hoursDay);
