@@ -50,31 +50,37 @@ export class Materia extends BaseEntity{
 
     static getAllMaterias(){
 
-        return this.createQueryBuilder("materia")
-        .select([
-          "materia.id",
-          "materia.nombre",
-          "materia.codigo",
-          "materia.noestudiantes",
-          "materia.nocreditos",
-          "materia.estado",
-          "docente.nombre",
-          "docente.codigo",
-          "docente.correo",
-          "docente.telefono",
-          "programaacademico.nombre",
-          "programaacademico.codigo",
-          "programaacademico.correo",
-          "dirprograma.codigo",
-          "dirprograma.nombre",
-          "dirprograma.correo",
-          "dirprograma.telefono",
+      return this.createQueryBuilder("materia")
+      .leftJoin("materia.docente", "docente")
+      .leftJoinAndSelect("materia.dias", 'dia')
+      .leftJoinAndSelect("dia.horas", 'hora')
+      .getMany();
 
-        ])
-        .leftJoin("materia.docente", "docente")
-        .leftJoin("materia.programaAcademico", "programaacademico")
-        .leftJoin("programaacademico.dirPrograma", "dirprograma")
-        .getMany();
+        // return this.createQueryBuilder("materia")
+        // .select([
+        //   "materia.id",
+        //   "materia.nombre",
+        //   "materia.codigo",
+        //   "materia.noestudiantes",
+        //   "materia.nocreditos",
+        //   "materia.estado",
+        //   "docente.nombre",
+        //   "docente.codigo",
+        //   "docente.correo",
+        //   "docente.telefono",
+        //   "programaacademico.nombre",
+        //   "programaacademico.codigo",
+        //   "programaacademico.correo",
+        //   "dirprograma.codigo",
+        //   "dirprograma.nombre",
+        //   "dirprograma.correo",
+        //   "dirprograma.telefono",
+
+        // ])
+        // .leftJoin("materia.docente", "docente")
+        // .leftJoin("materia.programaAcademico", "programaacademico")
+        // .leftJoin("programaacademico.dirPrograma", "dirprograma")
+        // .getMany();
     }
 
     static getMateriasbyID(idMateria: number){
