@@ -42,7 +42,14 @@ class ClaseService {
 
         const days = dataHorario.keys();
 
+        const daysData = []
+        
+        for (const key of days) {
+           daysData.push(key);
+        }
+
         console.log('days', days);
+        console.log('days', daysData);
 
         let indexDay = 0;
         //> ['0', '1', '2', '3', '4']
@@ -50,15 +57,15 @@ class ClaseService {
 
         
 
-        while(days.length !== daysCreated.length){
+        while(daysData.length !== daysCreated.length){
         
-          console.log('days.length', days.length)
+          console.log('days.length', daysData.length)
           console.log('daysCreated.length', daysCreated.length)
           console.log('Entre Al While')
-          console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
-          const day = await this.createDay(parseInt(days[indexDay]));
+          console.log('parseInt(days[indexDay])', parseInt(daysData[indexDay]))
+          const day = await this.createDay(parseInt(daysData[indexDay]));
           // console.log(day);
-          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])]);
+          const hoursDay = await this.createHours(dataHorario[parseInt(daysData[indexDay])]);
           // console.log(hoursDay);
   
           day.horas = hoursDay;
