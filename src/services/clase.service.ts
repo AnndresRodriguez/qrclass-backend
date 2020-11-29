@@ -24,13 +24,13 @@ class ClaseService {
 
  
 
-  async createClase(dataMateria: IClase, dataHorario: any) {
+  async createClase(idMateria: number, dataHorario: any) {
       
     console.log(dataHorario);
     // console.log(idMateria)
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
-    const materiaClase = await materiaRepository.findOne({ id: dataMateria.idMateria })
+    const materiaClase = await materiaRepository.findOne({ id: idMateria })
  
     if(materiaClase !== undefined){ 
        
@@ -81,7 +81,7 @@ class ClaseService {
                         
     }
 
-    httpResponse.errorNotFoundID('Materia', dataMateria.idMateria);
+    httpResponse.errorNotFoundID('Materia', idMateria);
     return httpResponse;
    
   }
