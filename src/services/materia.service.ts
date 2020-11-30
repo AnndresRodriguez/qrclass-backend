@@ -147,11 +147,28 @@ class MateriaService {
  
   }
 
-    async validateCodeMateria(materiaCodigo: string): Promise<boolean> {
+  async getEstudiantesMateria(idMateria: number){
+
+      const httpResponse = new HttpResponse();
+      const materias = await Materia.getEstudiantesbyMateria(idMateria);
+
+      if(!_.isEmpty(materias)){
+
+         httpResponse.findAll(materias);
+         return httpResponse;
+
+      }
+
+      httpResponse.errorNotFoundID('Materia',idMateria)
+      return httpResponse;
+
+  }
+
+  async validateCodeMateria(materiaCodigo: string): Promise<boolean> {
         const materiaRepository = getRepository(Materia);
         const materiaFinded = await materiaRepository.find({ where: { codigo: materiaCodigo } });
         return !_.isEmpty(materiaFinded);
-    }
+  }
 }
 
 const materiaService = new MateriaService();

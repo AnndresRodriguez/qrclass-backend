@@ -40,7 +40,7 @@ export class Materia extends BaseEntity{
     // @OneToMany(() => Clase, clase => clase.materia)
     // clases: Clase[];
 
-    @ManyToMany(() => Estudiante, { cascade: true })
+    @ManyToMany(() => Estudiante, { cascade: false })
     @JoinTable({ name: 'matricula' })
     estudiantes: Estudiante[];
 
@@ -111,6 +111,15 @@ export class Materia extends BaseEntity{
       .where("docente.id = :id", { id: idDocente })
       .getMany();
 
+
+    }
+
+    static getEstudiantesbyMateria(idMateria: number){
+
+      return this.createQueryBuilder("materia")
+      .leftJoinAndSelect("materia.estudiantes", "estudiante")
+      .where("materia.id = :id", { id: idMateria })
+      .getMany();
 
     }
 
