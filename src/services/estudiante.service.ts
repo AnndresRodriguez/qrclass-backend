@@ -117,6 +117,23 @@ class EstudianteService {
     const EstudianteFinded = await EstudianteRepository.find({ where: { codigo: codigo } });
     return !_.isEmpty(EstudianteFinded);
   }
+
+  async validateEmailEstudiante(estudianteEmail: string){
+
+    const httpResponse = new HttpResponse();
+    const estudianteRepository = getRepository(Estudiante);
+    const estudianteFinded = await estudianteRepository.findOne({ where: { correo: estudianteEmail }});
+
+    if(estudianteFinded !== undefined){
+        httpResponse.findOne({ id: estudianteFinded.id });
+        return httpResponse;
+    }
+
+    httpResponse.errorNotRecordFound('estudiante', 'Email', estudianteEmail);
+    return httpResponse;
+  
+  }
+
 }
 
 const estudianteService = new EstudianteService();

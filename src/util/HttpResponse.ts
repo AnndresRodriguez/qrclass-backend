@@ -75,4 +75,11 @@ export class HttpResponse {
     errorNotFoundID(nameEntity: string, id: any) {
       this.message = `${nameEntity} with ID ${id} was not found`;
     }
+
+    errorNotRecordFound(nameEntity: string, field: string, value: any){
+
+      this.message = `${nameEntity} with field ${field} ${value} was not found`;
+
+
+    }
   }

@@ -127,6 +127,22 @@ class DirectorService {
     return !_.isEmpty(directorFinded);
   }
 
+  async validateEmailDirector(directorEmail: string){
+
+    const httpResponse = new HttpResponse();
+    const directorRepository = getRepository(DirPrograma);
+    const directorFinded = await directorRepository.findOne({ where: { correo: directorEmail }});
+
+    if(directorFinded !== undefined){
+        httpResponse.findOne({ id: directorFinded.id });
+        return httpResponse;
+    }
+
+    httpResponse.errorNotRecordFound('director', 'Email', directorEmail);
+    return httpResponse;
+  
+  }
+
 }
 
 const directorService = new DirectorService();

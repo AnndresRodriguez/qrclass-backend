@@ -58,10 +58,20 @@ class DirectorController {
 
     }
 
+    async findDirectorByEmail(req: Request, res: Response){
+
+        const { operation, message, data } =  await directorService.validateEmailDirector(req.body.email)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllDirectors);
         this.router.get("/:id", this.getDirector);
         this.router.post("/", this.createDirector);
+        this.router.post("/email", this.findDirectorByEmail);
         this.router.put("/", this.updateDirector);
         this.router.delete("/:id", this.desactivateDirector);
     }

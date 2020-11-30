@@ -57,10 +57,20 @@ class AdminController {
 
     }
 
+    async findAdminByEmail(req: Request, res: Response){
+
+        const { operation, message, data } =  await adminService.validateEmailAdmin(req.body.email)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllAdmins);
         this.router.get("/:id", this.getAdmin);
         this.router.post("/", this.createAdmin);
+        this.router.post("/email", this.findAdminByEmail);
         this.router.put("/", this.updateAdmin);
         this.router.delete("/:id", this.desactivateAdmin);
     }

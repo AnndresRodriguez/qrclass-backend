@@ -29,7 +29,7 @@ class MateriaController {
 
     }
 
-    async getMatertiaByDocente(req: Request, res: Response){
+    async getMateriaByDocente(req: Request, res: Response){
 
         const { operation, message, data } =  await materiaService.getMateriasByDocente(parseInt(req.params.id));
         operation
@@ -71,7 +71,7 @@ class MateriaController {
     routes() {
         this.router.get("/", this.getAllMaterias);
         this.router.get("/:id", this.getMateria);
-        this.router.post("/:id", this.getMatertiaByDocente);
+        this.router.post("/:id", this.getMateriaByDocente);
         this.router.post("/", this.createMateria);
         this.router.put("/", this.updateMateria);
         this.router.delete("/:id", this.desactivateMateria);

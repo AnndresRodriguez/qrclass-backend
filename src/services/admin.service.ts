@@ -110,6 +110,22 @@ class AdminService {
     });
     return !_.isEmpty(docenteFinded);
   }
+
+  async validateEmailAdmin(adminEmail: string){
+
+    const httpResponse = new HttpResponse();
+    const adminRepository = getRepository(Admin);
+    const adminFinded = await adminRepository.findOne({ where: { correo: adminEmail }});
+
+    if(adminFinded !== undefined){
+        httpResponse.findOne({ id: adminFinded.id });
+        return httpResponse;
+    }
+
+    httpResponse.errorNotRecordFound('admin', 'Email', adminEmail);
+    return httpResponse;
+  
+  }
 }
 
 const adminService = new AdminService();

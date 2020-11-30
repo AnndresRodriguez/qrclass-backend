@@ -61,10 +61,20 @@ class DocenteController {
 
     }
 
+    async findDocenteByEmail(req: Request, res: Response){
+
+        const { operation, message, data } =  await docenteService.validateEmailDocente(req.body.email)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllDocentes);
         this.router.get("/:id", this.getDocente);
         this.router.post("/", this.createDocente);
+        this.router.post("/email", this.findDocenteByEmail);
         this.router.put("/", this.updateDocente);
         this.router.delete("/:id", this.desactivateDocente);
     }

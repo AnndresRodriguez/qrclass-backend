@@ -56,10 +56,20 @@ class EstudianteController {
 
     }
 
+    async findEstudianteByEmail(req: Request, res: Response){
+
+        const { operation, message, data } =  await estudianteService.validateEmailEstudiante(req.body.email)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllEstudiantes);
         this.router.get("/:id", this.getEstudiante);
         this.router.post("/", this.createEstudiante);
+        this.router.post("/email", this.findEstudianteByEmail);
         this.router.put("/", this.updateEstudiante);
         this.router.delete("/:id", this.desactivateEstudiante);
     }

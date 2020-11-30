@@ -146,6 +146,22 @@ class DocenteService {
     );
     return !_.isEmpty(departamentoDocente);
   }
+
+  async validateEmailDocente(docenteEmail: string){
+
+    const httpResponse = new HttpResponse();
+    const docenteRepository = getRepository(Docente);
+    const docenteFinded = await docenteRepository.findOne({ where: { correo: docenteEmail }});
+
+    if(docenteFinded !== undefined){
+        httpResponse.findOne({ id: docenteFinded.id });
+        return httpResponse;
+    }
+
+    httpResponse.errorNotRecordFound('Docente', 'Email', docenteEmail);
+    return httpResponse;
+  
+  }
 }
 
 const docenteService = new DocenteService();

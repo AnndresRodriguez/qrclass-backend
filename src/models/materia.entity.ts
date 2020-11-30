@@ -110,6 +110,8 @@ export class Materia extends BaseEntity{
       .leftJoinAndSelect("dia.horas", 'hora')
       .where("docente.id = :id", { id: idDocente })
       .getMany();
+
+
     }
 
   
