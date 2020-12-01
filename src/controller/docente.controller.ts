@@ -20,6 +20,8 @@ class DocenteController {
 
     }
 
+    
+
     async getDocente(req: Request, res: Response){
 
         const { operation, message, data } =  await docenteService.getDocente(parseInt(req.params.id));
@@ -69,6 +71,8 @@ class DocenteController {
          : res.status(202).json({ operation, message });
 
     }
+
+
 
     routes() {
         this.router.get("/", this.getAllDocentes);

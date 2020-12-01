@@ -102,6 +102,8 @@ class EstudianteService {
    
   }
 
+  
+
   async setDataEstudiante(currentEstudiante: Estudiante, newDataEstudiante: IEstudiante){
     currentEstudiante.codigo = newDataEstudiante.codigo;
     currentEstudiante.nombre = newDataEstudiante.nombre;

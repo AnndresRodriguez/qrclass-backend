@@ -5,6 +5,7 @@ node_modules
 ormconfig.json
 logs.txt
 /removal-api
+/public/*
 # local env files
 .env.local
 .env.*.local

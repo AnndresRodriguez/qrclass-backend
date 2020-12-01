@@ -100,13 +100,6 @@ class ClaseService {
    
   }
 
-  async createInfoClass(materia: Materia, dataInfo: {}[]){
-
-      
-
-
-  }
-
   
 
   async createHours(hours: Array<number>){

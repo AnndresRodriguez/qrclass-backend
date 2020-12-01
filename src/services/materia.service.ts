@@ -6,6 +6,10 @@ import { IMateria } from '../models/interfaces/IMateria';
 import { Materia } from '../models/materia.entity';
 import { Docente } from '../models/docente.entity';
 import { ProgramaAcademico } from '../models/programaAcademico.entity';
+import XSLX from 'xlsx';
+import { IEstudiante } from '../models/interfaces/IEstudiante';
+import { Estudiante } from '../models/estudiante.entity';
+
 
 class MateriaService {
   async getAllMaterias() {
@@ -169,6 +173,60 @@ class MateriaService {
         const materiaFinded = await materiaRepository.find({ where: { codigo: materiaCodigo } });
         return !_.isEmpty(materiaFinded);
   }
+
+  async createDinamicStudents(nameFile: string, idMateria: number){
+
+    const httpResponse = new HttpResponse();
+    const excelFile = XSLX.readFile(nameFile);
+    const materiaRepository = getRepository(Materia);
+    const materiaClase = await materiaRepository.findOne({ id: idMateria })
+
+    if(materiaClase != undefined){
+
+
+      let nombreHoja = excelFile.SheetNames;
+      let datos = XSLX.utils.sheet_to_json(excelFile.Sheets[nombreHoja[0]])
+
+   
+      // let est = <IEstudiante[]>datos;
+      // let datosEstudiantes = datos.map(dato => ( { nombre: dato.nombre } ))
+
+
+      const studentsCreated: Array<Estudiante> = [];
+      let index = 0;
+
+      while(datos.length !== studentsCreated.length){
+
+       
+
+        // const day = await this.createStudent((datos[index]));
+
+      }
+
+      // httpResponse.findOne(datos);
+
+    }
+
+    return httpResponse;
+  }
+
+  async createStudent(estudiante: object){
+
+    const studentRepository = getRepository(Estudiante);
+    // const httpResponse = new HttpResponse();
+    // const existsstudent = await this.validateCodeEstudiante(estudiante.codigo);
+
+    // if (!existsstudent) {
+    const newstudent = studentRepository.create(estudiante);
+    const studentCreated = await newstudent.save();
+    return studentCreated;
+    // }
+        
+    // httpResponse.errorDuplicated();
+    // return httpResponse;
+    
+  }
+
 }
 
 const materiaService = new MateriaService();

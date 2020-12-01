@@ -8,6 +8,7 @@ import passport from 'passport';
 import { config } from 'dotenv';
 import routes from './controller'
 import database from './config/datebase';
+import fileupload from "express-fileupload";
 
 config();
 const cookieSession = require('cookie-session');
@@ -40,6 +41,7 @@ export default class Server {
       };
       this.app.set("port", process.env.PORT || this.port || 3000);
       this.app.use(morgan("dev"));
+      this.app.use(fileupload({ useTempFiles: false }));
       this.app.use(express.json());
       this.app.use(express.urlencoded({ extended: false }));
       this.app.use(cors());
@@ -62,6 +64,7 @@ export default class Server {
       this.app.use('/clases', routes.claseController);
       this.app.use('/horas', routes.horaController);
       this.app.use(express.static("public"));
+      
     }
   
     start(): void {
