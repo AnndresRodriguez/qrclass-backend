@@ -101,7 +101,7 @@ class DocenteService {
       const docenteRepository = getRepository(Docente);
       const departamentoRepository = getRepository(Departamento);
       const departamentoDocente = await departamentoRepository.findOne(newDataDocente.idDepartamento);
-      const docenteToUpdate = await docenteRepository.findOne(idDocente);
+      const docenteToUpdate = await docenteRepository.findOne({ id: idDocente });
 
       if (docenteToUpdate !== undefined) {
         if(departamentoDocente !== undefined){
