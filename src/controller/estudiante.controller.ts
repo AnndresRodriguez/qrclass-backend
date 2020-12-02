@@ -39,7 +39,7 @@ class EstudianteController {
 
     async updateEstudiante(req: Request, res: Response){
 
-        const newEstudiante: IEstudiante = req.body;
+        const newEstudiante: IEstudiante = req.body.estudiante;
         const { operation, message, data } =  await estudianteService.updateEstudiante(parseInt(req.body.idEstudiante), newEstudiante);
         operation
          ? res.status(200).json({ operation, message, data })
