@@ -29,7 +29,6 @@ export class Admin extends BaseEntity{
           "admin.telefono",
           "admin.estado",
         ])
-        .where("admin.estado = :estado", { estado: 1 })
         .getMany();
     }
 
