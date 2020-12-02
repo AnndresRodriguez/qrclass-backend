@@ -15,16 +15,12 @@ class ClaseService {
   async getAllClases() {
 
     const httpResponse = new HttpResponse();
-
     const allClases = await Clase.getAllClases() ;
 
     if(!_.isEmpty(allClases)){
-
       httpResponse.findOne(allClases);
       return httpResponse;
-
     }
-   
     return httpResponse;
     
   }
@@ -34,7 +30,6 @@ class ClaseService {
   async createClase(idMateria: number, dataHorario: any) {
       
     console.log(dataHorario);
-    // console.log(idMateria)
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
     const materiaClase = await materiaRepository.findOne({ id: idMateria })
@@ -42,26 +37,12 @@ class ClaseService {
     if(materiaClase !== undefined){ 
        
         
-        // dataHorario > { "0": [0,1], "1": [2,3], "2": [3,4], "3": [4,5], "4": [4,5] }
         const daysCreated: Array<Dia> = [];
-
-        
-
-        console.log('dataHorario', dataHorario);
-
         const days = Object.keys(dataHorario);
-
-        console.log('days', days);
-
         let indexDay = 0;
-        //> ['0', '1', '2', '3', '4']
-
-//         [ { dia: '1', horas: [ 2 ] }, { dia: '2', horas: [ 2, 3 ] } ]
-// dataHorario [ { dia: '1', horas: [ 2 ] }, { dia: '2', horas: [ 2, 3 ] } ]
-// days [ '0', '1' ]
+       
 
         
-
         while(days.length !== daysCreated.length){
         
           console.log('days.length', days.length)
@@ -69,9 +50,8 @@ class ClaseService {
           console.log('Entre Al While')
           console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
           const day = await this.createDay(parseInt(dataHorario[parseInt(days[indexDay])].dia));
-          // console.log(day);
+    
           const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])].horas);
-          // console.log(hoursDay);
   
           day.horas = hoursDay;
           const daySaved = await day.save()

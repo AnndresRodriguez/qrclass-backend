@@ -83,8 +83,7 @@ class DocenteService {
         const docenteDisabled = await docenteToDisable.save();
         httpResponse.update('Docente', docenteDisabled);
         return httpResponse;
-      }
-
+      } 
       httpResponse.errorNotFoundID('Docente', idDocente);
       return httpResponse;
     }
