@@ -8,6 +8,7 @@ import directorController from './director.controller';
 import materiasController from './materia.controller';
 import claseController from './clase.controller';
 import horaController from './hora.controller';
+import qrController from './qr.controller';
 
 
 const routes = {
@@ -20,7 +21,8 @@ const routes = {
   directorController,
   materiasController,
   claseController,
-  horaController
+  horaController,
+  qrController
 };
 
 export default routes;

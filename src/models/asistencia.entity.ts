@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable, JoinColumn } from 'typeorm';
-// import { Clase } from './clase.entity';
+import { Clase } from './clase.entity';
 
 @Entity('asistencia')
 export class Asistencia extends BaseEntity{
@@ -9,10 +9,11 @@ export class Asistencia extends BaseEntity{
     @Column({type: 'integer'})
     asistio: number;
     
-    // @ManyToOne(() => Clase, clase => clase.asistencias)
-    // @JoinColumn({ name: "Clase_idHora" })
-    // clase: Clase;
-    
+    @ManyToOne(() => Clase, clase => clase.asistencias)
+    @JoinColumn({ name: "Clase_Materia_id" })
+    clase: Clase;
+
+  
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
