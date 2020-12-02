@@ -10,6 +10,10 @@ class QRController {
         this.routes();
     }
 
+    async getDataScaQR(req: Request, res: Response){
+
+    }
+
     async getDataScanQR(req: Request, res: Response){
 
     }

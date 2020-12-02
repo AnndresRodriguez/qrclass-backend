@@ -195,13 +195,13 @@ class MateriaService {
       const studentsCreated: Array<Estudiante> = [];
       let index = 0;
 
-      while(datos.length !== studentsCreated.length){
+      // while(datos.length !== studentsCreated.length){
 
        
 
         // const day = await this.createStudent((datos[index]));
 
-      }
+      // }
 
       // httpResponse.findOne(datos);
 
