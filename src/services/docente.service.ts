@@ -105,8 +105,8 @@ class DocenteService {
       if (docenteToUpdate !== undefined) {
         if(departamentoDocente !== undefined){
              const docenteToSave = await this.setDataDocente(docenteToUpdate, newDataDocente, departamentoDocente)
-             const docenteUpdated = await docenteToSave.save();
-             httpResponse.update("Docente", docenteUpdated);
+            //  const docenteUpdated = await docenteToSave.save();
+            //  httpResponse.update("Docente", docenteUpdated);
              return httpResponse;
         }
         httpResponse.errorNotFoundID('Departamento', newDataDocente.idDepartamento);
