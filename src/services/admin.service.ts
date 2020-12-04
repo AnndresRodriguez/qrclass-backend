@@ -37,36 +37,99 @@ class AdminService {
     const adminRepository = getRepository(Admin);
     const httpResponse = new HttpResponse();
     const existsAdmin = await this.validateDocumentAdmin(admin.documento);
+    const existEmailAdmin = await this.validateEmailExistsAdmin(admin.correo);
 
     if (!existsAdmin) {
-      const newAdmin = adminRepository.create(admin);
-      const adminCreated = await newAdmin.save();
-      httpResponse.create("Admin", adminCreated);
+      if(!existEmailAdmin){
+        const newAdmin = adminRepository.create(admin);
+        const adminCreated = await newAdmin.save();
+        httpResponse.create("Admin", adminCreated);
+        return httpResponse;
+      }
+
+      httpResponse.errorFieldDuplicated('Email', admin.correo);
       return httpResponse;
     }
 
-    httpResponse.errorDuplicated();
+    httpResponse.errorFieldDuplicated('Document', admin.documento);
     return httpResponse;
   }
 
   async updateAdmin(idAdmin: number, newDataAdmin: IAdmin) {
     const httpResponse = new HttpResponse();
-    if (_.isNumber(+idAdmin)) {
-      const adminRepository = getRepository(Admin);
-      const adminToUpdate = await adminRepository.findOne(idAdmin);
+    const adminRepository = getRepository(Admin);
+    const adminToUpdate = await adminRepository.findOne(idAdmin);
+      
 
-      if (adminToUpdate !== undefined) {
-        const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
-        const adminUpdated = await adminToSave.save();
-        httpResponse.update("Admin", adminUpdated);
-        return httpResponse;
+    if (adminToUpdate !== undefined) {
+
+        const modifyDocumentAdmin = await this.validateModifyAdminDocument(newDataAdmin.documento, adminToUpdate.documento);
+        const modifyEmailAdmin = await this.validateModifyAdminEmail(newDataAdmin.correo, adminToUpdate.correo);
+        
+        console.log(`${modifyDocumentAdmin} && ${modifyEmailAdmin}`, modifyDocumentAdmin && modifyEmailAdmin)
+
+        if(modifyDocumentAdmin && modifyEmailAdmin){
+          
+          const existDocumentAdmin = await this.validateDocumentAdmin(newDataAdmin.documento);
+          const existEmailAdmin = await this.validateDocumentAdmin(newDataAdmin.correo);
+
+          if(!existDocumentAdmin){
+            if(!existEmailAdmin){
+
+              const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
+              const adminUpdated = await adminToSave.save();
+              httpResponse.update("Admin", adminUpdated);
+              return httpResponse;
+
+            }
+
+            httpResponse.errorFieldDuplicated('Email', adminToUpdate.documento);
+            return httpResponse;
+
+          }
+
+          httpResponse.errorFieldDuplicated('Document', adminToUpdate.documento);
+          return httpResponse;
+
+        }
+
+        else if(modifyDocumentAdmin){
+            
+            const existDocumentAdmin = await this.validateDocumentAdmin(newDataAdmin.documento);
+
+            console.log('existDocumentAdmin', existDocumentAdmin )
+    
+            if(!existDocumentAdmin){
+              const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
+              const adminUpdated = await adminToSave.save();
+              httpResponse.update("Admin", adminUpdated);
+              return httpResponse;
+            }
+
+            httpResponse.errorFieldDuplicated('Document', adminToUpdate.documento);
+            return httpResponse;
+          
+        }
+
+        else {
+            const existEmailAdmin = await this.validateDocumentAdmin(newDataAdmin.correo);
+
+            if(!existEmailAdmin){
+              const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
+              const adminUpdated = await adminToSave.save();
+              httpResponse.update("Admin", adminUpdated);
+              return httpResponse;
+            }
+
+            httpResponse.errorFieldDuplicated('Email', adminToUpdate.documento);
+            return httpResponse;
+            
+        }
+    
       }
-      httpResponse.errorNotFoundID("Docente", idAdmin);
+      httpResponse.errorNotFoundID("Admin", idAdmin);
       return httpResponse;
-    }
-
-    httpResponse.errorFormatInvalid(idAdmin);
-    return httpResponse;
+    
   }
 
   async desactivateAdmin(idAdmin: number) {
@@ -94,6 +157,9 @@ class AdminService {
   }
 
   async setDataAdmin(currentAdmin: Admin, newDataAdmin: IAdmin) {
+
+    
+
     currentAdmin.documento = newDataAdmin.documento;
     currentAdmin.nombrecompleto = newDataAdmin.nombrecompleto;
     currentAdmin.correo = newDataAdmin.correo;
@@ -104,12 +170,52 @@ class AdminService {
   }
 
   async validateDocumentAdmin(documento: string): Promise<boolean> {
-    const docenteRepository = getRepository(Admin);
-    const docenteFinded = await docenteRepository.find({
+    const adminRepository = getRepository(Admin);
+    const adminFinded = await adminRepository.find({
       where: { documento: documento },
     });
-    return !_.isEmpty(docenteFinded);
+    console.log(documento);
+    console.log(adminFinded);
+    return !_.isEmpty(adminFinded);
   }
+
+  async validateEmailExistsAdmin(adminEmail: string): Promise<boolean> {
+    const adminRepository = getRepository(Admin);
+    const adminFinded = await adminRepository.find({
+      where: { correo: adminEmail },
+    });
+    return !_.isEmpty(adminFinded);
+  }
+
+  async validateModifyAdminDocument(newDocument: string, currentDocument: string ){
+
+    const adminRepository = getRepository(Admin);
+    const adminFinded = await adminRepository.findOne({
+      where: { documento: newDocument },
+    });
+
+    if(adminFinded !== undefined){
+         return adminFinded.documento !== currentDocument;
+    }
+
+    return true
+  }
+
+  async validateModifyAdminEmail(newEmail: string, currentEmail: string ){
+
+    const adminRepository = getRepository(Admin);
+    const adminFinded = await adminRepository.findOne({
+      where: { correo: newEmail },
+    });
+
+    if(adminFinded !== undefined){
+         return adminFinded.correo !== currentEmail;
+    }
+
+    return true
+  }
+
+
 
   async validateEmailAdmin(adminEmail: string){
 

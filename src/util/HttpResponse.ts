@@ -61,6 +61,10 @@ export class HttpResponse {
     errorDuplicated() {
       this.message = "This record is already in our database";
     }
+
+    errorFieldDuplicated(recordDuplicated: string, id: any) {
+      this.message = `This ${recordDuplicated} with field ${id} is already in our database`;
+    }
   
     errorEmptyObject(dataReceived: object) {
       this.message = `Data received to request is empty`;

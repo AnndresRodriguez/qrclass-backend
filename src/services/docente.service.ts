@@ -104,10 +104,17 @@ class DocenteService {
 
       if (docenteToUpdate !== undefined) {
         if(departamentoDocente !== undefined){
-             const docenteToSave = await this.setDataDocente(docenteToUpdate, newDataDocente, departamentoDocente)
-            //  const docenteUpdated = await docenteToSave.save();
-            //  httpResponse.update("Docente", docenteUpdated);
-             return httpResponse;
+            const docenteToSave = await this.setDataDocente(docenteToUpdate, newDataDocente, departamentoDocente)
+             
+            const materiaRepository = await getRepository(Docente)
+            .createQueryBuilder()
+            .update()
+            .set(docenteToSave)
+            .where("id = :id", { id: docenteToUpdate.id })
+            .execute();
+
+            httpResponse.update('Materia', materiaRepository)
+            return httpResponse;
         }
         httpResponse.errorNotFoundID('Departamento', newDataDocente.idDepartamento);
         return httpResponse;

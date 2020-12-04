@@ -35,7 +35,7 @@ class AdminController {
         const { operation, message, data } =  await adminService.createAdmin(newAdmin);
         operation
          ? res.status(200).json({ operation, message, data })
-         : res.status(202).json({ operation, message });
+         : res.status(406).json({ operation, message });
     }
 
     async updateAdmin(req: Request, res: Response){
