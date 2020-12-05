@@ -71,7 +71,7 @@ class AdminService {
         if(modifyDocumentAdmin && modifyEmailAdmin){
           
           const existDocumentAdmin = await this.validateDocumentAdmin(newDataAdmin.documento);
-          const existEmailAdmin = await this.validateDocumentAdmin(newDataAdmin.correo);
+          const existEmailAdmin = await this.validateEmailExistsAdmin(newDataAdmin.correo);
 
           if(!existDocumentAdmin){
             if(!existEmailAdmin){
