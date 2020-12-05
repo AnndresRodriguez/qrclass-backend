@@ -11,14 +11,14 @@ class ClaseController {
         this.routes();
     }
 
-    async getAllClases(req: Request, res: Response){
+    // async getAllClases(req: Request, res: Response){
 
-        const { operation, message, data } =  await claseService.getAllClases();
-        operation
-         ? res.status(200).json({ operation, message, data })
-         : res.status(202).json({ operation, message });
+    //     const { operation, message, data } =  await claseService.getAllClases();
+    //     operation
+    //      ? res.status(200).json({ operation, message, data })
+    //      : res.status(202).json({ operation, message });
 
-    }
+    // }
 
     async getClase(req: Request, res: Response){
 
@@ -57,7 +57,7 @@ class ClaseController {
     }
 
     routes() {
-        this.router.get("/", this.getAllClases);
+        // this.router.get("/", this.getAllClases);
         this.router.get("/:id", this.getClase);
         this.router.post("/", this.createClase);
         this.router.put("/", this.updateClase);

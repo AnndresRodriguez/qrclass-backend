@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
-import { Clase } from './clase.entity';
+// import { Clase } from './clase.entity';
 import { Hora } from './hora.entity';
 // import { Horario } from './horario.entity';
 
@@ -21,8 +21,8 @@ export class Dia extends BaseEntity{
     horas: Hora[];
 
 
-    @OneToMany(() => Clase, clase => clase.materia)
-    clases: Clase[];
+    // @OneToMany(() => Clase, clase => clase.materia)
+    // clases: Clase[];
 
     // @OneToMany(() => Horario, horario => horario.dia)
     // horarios: Horario[]

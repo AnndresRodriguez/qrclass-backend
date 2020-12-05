@@ -6,24 +6,24 @@ import { getConnection, getRepository, ObjectID } from 'typeorm';
 import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
-import { Clase } from '../models/clase.entity';
+// import { Clase } from '../models/clase.entity';
 
 
 class ClaseService {
  
 
-  async getAllClases() {
+  // async getAllClases() {
 
-    const httpResponse = new HttpResponse();
-    const allClases = await Clase.getAllClases() ;
+  //   const httpResponse = new HttpResponse();
+  //   const allClases = await Clase.getAllClases() ;
 
-    if(!_.isEmpty(allClases)){
-      httpResponse.findOne(allClases);
-      return httpResponse;
-    }
-    return httpResponse;
+  //   if(!_.isEmpty(allClases)){
+  //     httpResponse.findOne(allClases);
+  //     return httpResponse;
+  //   }
+  //   return httpResponse;
     
-  }
+  // }
 
  
 
