@@ -112,7 +112,7 @@ class AdminService {
         }
 
         else {
-            const existEmailAdmin = await this.validateDocumentAdmin(newDataAdmin.correo);
+            const existEmailAdmin = await this.validateEmailExistsAdmin(newDataAdmin.correo);
 
             if(!existEmailAdmin){
               const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
