@@ -111,7 +111,7 @@ class AdminService {
           
         }
 
-        else {
+        else if(modifyEmailAdmin){
             const existEmailAdmin = await this.validateEmailExistsAdmin(newDataAdmin.correo);
 
             if(!existEmailAdmin){
@@ -124,6 +124,13 @@ class AdminService {
             httpResponse.errorFieldDuplicated('Email', adminToUpdate.documento);
             return httpResponse;
             
+        } else {
+
+              const adminToSave = await this.setDataAdmin(adminToUpdate, newDataAdmin);
+              const adminUpdated = await adminToSave.save();
+              httpResponse.update("Admin", adminUpdated);
+              return httpResponse;
+
         }
     
       }
