@@ -2,6 +2,7 @@
 node_modules
 /src/migrations
 /dist
+/qrclass
 ormconfig.json
 logs.txt
 /removal-api
