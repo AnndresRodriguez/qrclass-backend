@@ -53,10 +53,6 @@ export class Materia extends BaseEntity{
     estudiantes: Estudiante[];
 
 
-    // @ManyToMany(() => Asistencia, { cascade: true })
-    // @JoinTable({ name: 'clase' })
-    // asistencias: Asistencia[];
-
     static getAllMaterias(){
 
       return this.createQueryBuilder("materia")
