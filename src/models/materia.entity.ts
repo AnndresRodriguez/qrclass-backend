@@ -1,11 +1,12 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
-// import { Clase } from './clase.entity';
+import { Clase } from './clase.entity';
 import { ProgramaAcademico } from './programaAcademico.entity';
 // import { Matricula } from './matricula.entity';
 import { Docente } from './docente.entity';
 import { Estudiante } from './estudiante.entity';
 import { Dia } from './dia.entity';
 import { Asistencia } from './asistencia.entity';
+import { Horario } from './horario.entity';
 
 @Entity('materia')
 export class Materia extends BaseEntity{
@@ -38,49 +39,36 @@ export class Materia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date;
 
-    // @OneToMany(() => Clase, clase => clase.materia)
-    // clases: Clase[];
+    @OneToMany(() => Clase, clase => clase.materia)
+    clases: Clase[];
+
+    @OneToMany(() => Horario, horario => horario.materia)
+    horarios: Horario[];
+    
+    @OneToMany(() => Asistencia, asistencia => asistencia.materia)
+    asistencias: Asistencia[];
 
     @ManyToMany(() => Estudiante, { cascade: false })
     @JoinTable({ name: 'matricula' })
     estudiantes: Estudiante[];
 
-    @ManyToMany(() => Dia, { cascade: true })
-    @JoinTable({ name: 'clase' })
-    dias: Dia[];
 
-
-    @ManyToMany(() => Asistencia, { cascade: true })
-    @JoinTable({ name: 'clase' })
-    asistencias: Asistencia[];
+    // @ManyToMany(() => Asistencia, { cascade: true })
+    // @JoinTable({ name: 'clase' })
+    // asistencias: Asistencia[];
 
     static getAllMaterias(){
 
       return this.createQueryBuilder("materia")
-      .select([
-          "materia.id",
-          "materia.nombre",
-          "materia.codigo",
-          "materia.noestudiantes",
-          "materia.nocreditos",
-          "materia.estado",
-          "docente.id",
-          "docente.nombre",
-          "docente.codigo",
-          "docente.correo",
-          "docente.telefono",
-          "programaacademico.nombre",
-          "dia.id",
-          "dia.dia",
-          "hora.id",
-          "hora.horainicio",
-          "hora.horafinal"
-        ])
-      .leftJoin("materia.docente", "docente")
-      .leftJoin("materia.programaAcademico", "programaacademico")
-      .leftJoin("materia.asistencias", "asistencia")
-      .leftJoin("materia.dias", 'dia')
-      .leftJoin("dia.horas", 'hora')
+      .leftJoinAndSelect("materia.docente", "docente")
+      .leftJoinAndSelect("materia.programaAcademico", "programaacademico")
+      .leftJoinAndSelect("materia.estudiantes", "estudiante")
+      .leftJoinAndSelect("estudiante.asistencias", "asistencia")
+      .leftJoinAndSelect("materia.horarios", 'horario')
+      .leftJoinAndSelect("horario.dia", 'dia')
+      .leftJoinAndSelect("horario.hora", 'hora')
+      .where("materia.id = :id", { id: 1 })
+      .andWhere("asistencia.idMateria = :id", { id: 1 })
       .getMany();
     }
 

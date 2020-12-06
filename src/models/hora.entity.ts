@@ -1,12 +1,12 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
 import { Dia } from './dia.entity';
-// import { Horario } from './horario.entity';
+import { Horario } from './horario.entity';
 
 @Entity('hora')
 export class Hora extends BaseEntity{
 
     @PrimaryGeneratedColumn('increment')
-    id: number;
+    idHora: number;
     @Column({type: 'varchar', length: 20 })
     horainicio: Date
     @Column({type: 'varchar', length: 20 })
@@ -19,8 +19,8 @@ export class Hora extends BaseEntity{
     // @ManyToMany(() => Dia, dia => dia.horas)
     // dias: Dia[];
 
-    // @OneToMany(() => Horario, horario => horario.hora)
-    // horarios: Horario[];
+    @OneToMany(() => Horario, horario => horario.hora)
+    horarios: Horario[];
 
     // @ManyToOne(() => Dia, dia => dia.horas )
     // @JoinColumn({ name: "idDia" })

@@ -53,7 +53,7 @@ class ClaseService {
     
           const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])].horas);
   
-          day.horas = hoursDay;
+          // day.horas = hoursDay;
           const daySaved = await day.save()
           daysCreated.push(day);
           indexDay++
@@ -67,7 +67,7 @@ class ClaseService {
         indexDay = 0;
 
        
-        materiaClase.dias = daysCreated;
+        // materiaClase.dias = daysCreated;
         materiaClase.updatedAt = new Date();
         const materiaCreated = await materiaClase.save();
         httpResponse.create('Materia', materiaCreated);

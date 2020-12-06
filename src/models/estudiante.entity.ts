@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 // import { Matricula } from './matricula.entity';
+import { Asistencia } from './asistencia.entity';
 
 @Entity('estudiante')
 export class Estudiante extends BaseEntity{
@@ -16,6 +17,9 @@ export class Estudiante extends BaseEntity{
     telefono: string;
     @Column({type: 'integer', default: "1"})
     estado: number;
+
+    @OneToMany(() => Asistencia, asistencia => asistencia.estudiante)
+    asistencias: Asistencia[];
     
     @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date

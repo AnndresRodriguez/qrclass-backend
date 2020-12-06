@@ -1,6 +1,9 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinTable, ManyToOne, JoinColumn } from 'typeorm';
 import { Materia } from './materia.entity';
 import { Departamento } from './departamento.entity';
+import { Asistencia } from './asistencia.entity';
+import { Horario } from './horario.entity';
+import { Clase } from './clase.entity';
 
 @Entity('docente')
 export class Docente extends BaseEntity{
@@ -29,6 +32,15 @@ export class Docente extends BaseEntity{
 
     @OneToMany(() => Materia, materia => materia.docente)
     materias: Materia[];
+
+    @OneToMany(() => Asistencia, asistencia => asistencia.docente)
+    asistencias: Asistencia[];
+    
+    @OneToMany(() => Horario, horario => horario.docente)
+    horarios: Horario[];
+    
+    @OneToMany(() => Clase, clase => clase.docente)
+    clases: Clase[];
 
     static getAllDocentes(){
         return this.createQueryBuilder("docente")
