@@ -5,6 +5,7 @@ import { ProgramaAcademico } from './programaAcademico.entity';
 import { Docente } from './docente.entity';
 import { Estudiante } from './estudiante.entity';
 import { Dia } from './dia.entity';
+import { Asistencia } from './asistencia.entity';
 
 @Entity('materia')
 export class Materia extends BaseEntity{
@@ -48,6 +49,11 @@ export class Materia extends BaseEntity{
     @JoinTable({ name: 'clase' })
     dias: Dia[];
 
+
+    @ManyToMany(() => Asistencia, { cascade: true })
+    @JoinTable({ name: 'clase' })
+    asistencias: Asistencia[];
+
     static getAllMaterias(){
 
       return this.createQueryBuilder("materia")
@@ -72,6 +78,7 @@ export class Materia extends BaseEntity{
         ])
       .leftJoin("materia.docente", "docente")
       .leftJoin("materia.programaAcademico", "programaacademico")
+      .leftJoin("materia.asistencias", "asistencia")
       .leftJoin("materia.dias", 'dia')
       .leftJoin("dia.horas", 'hora')
       .getMany();
