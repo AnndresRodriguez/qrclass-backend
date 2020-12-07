@@ -166,7 +166,7 @@ class MateriaService {
   async getEstudiantesMateria(idMateria: number){
 
       const httpResponse = new HttpResponse();
-      const materias = await Materia.getEstudiantesbyMateria(idMateria);
+      const materias = await Materia.getAsistenciaByMateria(idMateria);
 
       if(!_.isEmpty(materias)){
 

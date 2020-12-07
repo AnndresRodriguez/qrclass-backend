@@ -112,8 +112,9 @@ export class Materia extends BaseEntity{
 
       return this.createQueryBuilder("materia")
       .leftJoinAndSelect("materia.docente", "docente")
-      .leftJoinAndSelect("materia.dias", 'dia')
-      .leftJoinAndSelect("dia.horas", 'hora')
+      .leftJoinAndSelect("materia.horarios", 'horario')
+      .leftJoinAndSelect("horario.dia", 'dia')
+      .leftJoinAndSelect("horario.hora", 'hora')
       .where("docente.id = :id", { id: idDocente })
       .getMany();
 
