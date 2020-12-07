@@ -56,15 +56,30 @@ export class Materia extends BaseEntity{
     static getAllMaterias(){
 
       return this.createQueryBuilder("materia")
-      .leftJoinAndSelect("materia.docente", "docente")
-      .leftJoinAndSelect("materia.programaAcademico", "programaacademico")
-      .leftJoinAndSelect("materia.estudiantes", "estudiante")
-      .leftJoinAndSelect("estudiante.asistencias", "asistencia")
-      .leftJoinAndSelect("materia.horarios", 'horario')
-      .leftJoinAndSelect("horario.dia", 'dia')
-      .leftJoinAndSelect("horario.hora", 'hora')
-      .where("materia.id = :id", { id: 1 })
-      .andWhere("asistencia.idMateria = :id", { id: 1 })
+      .select([
+          "materia.id",
+          "materia.nombre",
+          "materia.codigo",
+          "materia.noestudiantes",
+          "materia.nocreditos",
+          "materia.estado",
+          "docente.id",
+          "docente.nombre",
+          "docente.codigo",
+          "docente.correo",
+          "docente.telefono",
+          "programaacademico.nombre",
+          "dia.id",
+          "dia.dia",
+          "hora.id",
+          "hora.horainicio",
+          "hora.horafinal"
+        ])
+      .leftJoin("materia.docente", "docente")
+      .leftJoin("materia.programaAcademico", "programaacademico")
+      .leftJoin("materia.asistencias", "asistencia")
+      .leftJoin("materia.dias", 'dia')
+      .leftJoin("dia.horas", 'hora')
       .getMany();
     }
 
@@ -102,7 +117,6 @@ export class Materia extends BaseEntity{
       .where("docente.id = :id", { id: idDocente })
       .getMany();
 
-
     }
 
     static getEstudiantesbyMateria(idMateria: number){
@@ -111,6 +125,24 @@ export class Materia extends BaseEntity{
       .leftJoinAndSelect("materia.estudiantes", "estudiante")
       .where("materia.id = :id", { id: idMateria })
       .getMany();
+
+    }
+
+    static getAsistenciaByMateria(idMateria: number){
+
+      return this.createQueryBuilder("materia")
+      .leftJoinAndSelect("materia.docente", "docente")
+      .leftJoinAndSelect("materia.programaAcademico", "programaacademico")
+      .leftJoinAndSelect("materia.estudiantes", "estudiante")
+      .leftJoinAndSelect("estudiante.asistencias", "asistencia")
+      .leftJoinAndSelect("materia.horarios", 'horario')
+      .leftJoinAndSelect("horario.dia", 'dia')
+      .leftJoinAndSelect("horario.hora", 'hora')
+      .where("materia.id = :id", { id: idMateria })
+      .andWhere("asistencia.idMateria = :id", { id: idMateria })
+      .getMany();
+
+
 
     }
 

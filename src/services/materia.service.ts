@@ -50,7 +50,19 @@ class MateriaService {
    httpResponse.errorNotFoundID('Materia', idDocente);
    return httpResponse;
 
+  }
 
+  async getAsistenciaByMateria(idMateria: number){
+
+    const httpResponse = new HttpResponse();
+    const asistenciasMateria = await Materia.getAsistenciaByMateria(idMateria);
+    if(!_.isEmpty(asistenciasMateria)){ 
+      httpResponse.findAll(asistenciasMateria);
+      return httpResponse;
+   }
+   httpResponse.errorNotFoundID('Materia', idMateria);
+   return httpResponse;
+    
 
   }
 

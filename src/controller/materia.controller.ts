@@ -80,6 +80,17 @@ class MateriaController {
 
     }
 
+    async getAsistenciasByMateria(req: Request, res: Response){
+
+        const { operation, message, data } =  await materiaService.getAsistenciaByMateria(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
+
+
     async loadStudentsByMateria(req: Request, res: Response){
     
         if(req.files != undefined){
@@ -136,6 +147,7 @@ class MateriaController {
         this.router.get("/:id", this.getMateria);
         this.router.get("/estudiantes/:id", this.getEstudiantesByMateria);
         this.router.get("/docente/:id", this.getMateriaByDocente);
+        this.router.get("/asistencias/:id", this.getAsistenciasByMateria);
         this.router.post("/", this.createMateria);
         this.router.post("/files", this.loadStudentsByMateria);
         this.router.put("/", this.updateMateria);
