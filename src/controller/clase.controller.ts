@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import claseService from '../services/clase.service';
 import { IClase } from '../models/interfaces/IClase';
+import { IHorario } from 'models/interfaces/IHorario';
 
 class ClaseController {
 
@@ -31,7 +32,10 @@ class ClaseController {
 
     async createClase(req: Request, res: Response){
 
-        const { operation, message, data } = await claseService.createClase(req.body.idMateria, req.body.horario)
+        const dataHorario: Array<IHorario> = req.body.dataHorario;
+
+        const { operation, message, data } = await claseService.createClase(parseInt(req.body.idMateria),
+        parseInt(req.body.idDocente), dataHorario)
         operation
          ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });

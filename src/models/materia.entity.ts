@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
-import { Clase } from './clase.entity';
+// import { Clase } from './clase.entity';
 import { ProgramaAcademico } from './programaAcademico.entity';
 // import { Matricula } from './matricula.entity';
 import { Docente } from './docente.entity';
@@ -39,8 +39,8 @@ export class Materia extends BaseEntity{
     @Column({type: 'datetime', name: 'updated_at', nullable: true })
     updatedAt: Date;
 
-    @OneToMany(() => Clase, clase => clase.materia)
-    clases: Clase[];
+    // @OneToMany(() => Clase, clase => clase.materia)
+    // clases: Clase[];
 
     @OneToMany(() => Horario, horario => horario.materia)
     horarios: Horario[];
@@ -69,17 +69,17 @@ export class Materia extends BaseEntity{
           "docente.correo",
           "docente.telefono",
           "programaacademico.nombre",
-          "dia.id",
+          "dia.idDia",
           "dia.dia",
-          "hora.id",
+          "hora.idHora",
           "hora.horainicio",
           "hora.horafinal"
         ])
       .leftJoin("materia.docente", "docente")
       .leftJoin("materia.programaAcademico", "programaacademico")
-      .leftJoin("materia.asistencias", "asistencia")
-      .leftJoin("materia.dias", 'dia')
-      .leftJoin("dia.horas", 'hora')
+      .leftJoinAndSelect("materia.horarios", 'horario')
+      .leftJoin("horario.dia", 'dia')
+      .leftJoin("horario.hora", 'hora')
       .getMany();
     }
 

@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable, JoinColumn } from 'typeorm';
- import { Clase } from './clase.entity';
+//  import { Clase } from './clase.entity';
 import { Materia } from './materia.entity';
 import { Docente } from './docente.entity';
 import { Estudiante } from './estudiante.entity';

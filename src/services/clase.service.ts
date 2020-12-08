@@ -7,6 +7,10 @@ import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
 // import { Clase } from '../models/clase.entity';
+import { Docente } from '../models/docente.entity';
+import { IHorario } from '../models/interfaces/IHorario';
+import { Horario } from '../models/horario.entity';
+// import { Clase } from "models/clase.entity";
 
 
 class ClaseService {
@@ -27,55 +31,71 @@ class ClaseService {
 
  
 
-  async createClase(idMateria: number, dataHorario: any) {
+  async createClase(idMateria:number, idDocente:number, dataHorario: Array<IHorario>) {
+
+    // const classes: Array<Clase> = [];
+    const horarios: Array<Horario> = [];
       
     console.log(dataHorario);
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
-    const materiaClase = await materiaRepository.findOne({ id: idMateria })
- 
-    if(materiaClase !== undefined){ 
-       
-        
-        const daysCreated: Array<Dia> = [];
-        const days = Object.keys(dataHorario);
-        let indexDay = 0;
-       
-
-        
-        while(days.length !== daysCreated.length){
-        
-          console.log('days.length', days.length)
-          console.log('daysCreated.length', daysCreated.length)
-          console.log('Entre Al While')
-          console.log('parseInt(days[indexDay])', parseInt(days[indexDay]))
-          const day = await this.createDay(parseInt(dataHorario[parseInt(days[indexDay])].dia));
+    const docenteRepository = getRepository(Docente);
+    const diaRepository = getRepository(Dia);
+    const horaRepository = getRepository(Hora);
+    let index = 0;
     
-          const hoursDay = await this.createHours(dataHorario[parseInt(days[indexDay])].horas);
-  
-          // day.horas = hoursDay;
-          const daySaved = await day.save()
-          daysCreated.push(day);
-          indexDay++
+    while(horarios.length !== dataHorario.length){
+      
+      const materiaHorario = await materiaRepository.findOne({ id: dataHorario[index].idMateria});
+      const docenteHorario = await docenteRepository.findOne({ id: dataHorario[index].idDocente });
+      const diaHorario = await diaRepository.findOne(dataHorario[index].idDia);
+      const horaHorario = await horaRepository.findOne(dataHorario[index].idHora);
+      
+      
+      if(materiaHorario !== undefined){
+        if(docenteHorario !== undefined){
+          if(diaHorario !== undefined){
+            if(horaHorario !== undefined){
 
+              console.log('Entre al while')
+              
+              const newHorario = new Horario();
+              newHorario.materia = materiaHorario;
+              newHorario.docente = docenteHorario;
+              newHorario.dia = diaHorario;
+              newHorario.hora = horaHorario;
+              const newHorarioToSave = await newHorario.save();
+              horarios.push(newHorarioToSave);
+              index++;
+            }
+          }
         }
-
-        console.log('Finalice el While')
-
-        console.log(materiaClase);
-
-        indexDay = 0;
-
-       
-        // materiaClase.dias = daysCreated;
-        materiaClase.updatedAt = new Date();
-        const materiaCreated = await materiaClase.save();
-        httpResponse.create('Materia', materiaCreated);
-        return httpResponse;
-          
-                        
+      }
+      
     }
 
+    console.log('Termine el whileeee')
+
+    const materiaClase = await materiaRepository.findOne({ id: idMateria });
+    const docenteClase = await docenteRepository.findOne({ id: idDocente });
+
+    if(materiaClase !== undefined){
+      if(docenteClase !== undefined){
+
+        
+        materiaClase.horarios = horarios;
+        materiaClase.updatedAt = new Date();
+        const materiaToSave = materiaClase.save();
+        httpResponse.create('Clase', materiaToSave);
+        return httpResponse;
+      
+      }
+
+      httpResponse.errorNotFoundID('Docente', idDocente);
+      return httpResponse;
+    }
+
+    
     httpResponse.errorNotFoundID('Materia', idMateria);
     return httpResponse;
    

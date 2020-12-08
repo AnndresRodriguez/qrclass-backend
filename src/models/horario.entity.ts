@@ -14,14 +14,14 @@ export class Horario extends BaseEntity{
    
     @ManyToOne(() => Docente, docente => docente.horarios, { primary: true })
     @JoinColumn({ name: "idDocente" })
-    docente: Materia;
+    docente: Docente;
     
     @ManyToOne(() => Hora, hora => hora.horarios, { primary: true })
-    @JoinColumn({ name: "idHora" })
+    @JoinColumn({ name: "horaId" })
     hora: Hora;
    
     @ManyToOne(() => Dia, dia => dia.horarios, { primary: true })
-    @JoinColumn({ name: "idDia" })
+    @JoinColumn({ name: "diaId" })
     dia: Dia;
 
     // @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })

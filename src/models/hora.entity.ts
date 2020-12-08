@@ -29,7 +29,7 @@ export class Hora extends BaseEntity{
     static getAllHours(){
         return this.createQueryBuilder("hora").
         select([
-            "hora.id",
+            "hora.idHora",
             "hora.horainicio",
             "hora.horafinal"
         ])

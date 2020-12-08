@@ -3,7 +3,7 @@ import { Materia } from './materia.entity';
 import { Departamento } from './departamento.entity';
 import { Asistencia } from './asistencia.entity';
 import { Horario } from './horario.entity';
-import { Clase } from './clase.entity';
+// import { Clase } from './clase.entity';
 
 @Entity('docente')
 export class Docente extends BaseEntity{
@@ -39,8 +39,8 @@ export class Docente extends BaseEntity{
     @OneToMany(() => Horario, horario => horario.docente)
     horarios: Horario[];
     
-    @OneToMany(() => Clase, clase => clase.docente)
-    clases: Clase[];
+    // @OneToMany(() => Clase, clase => clase.docente)
+    // clases: Clase[];
 
     static getAllDocentes(){
         return this.createQueryBuilder("docente")
