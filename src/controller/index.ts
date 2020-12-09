@@ -9,6 +9,8 @@ import materiasController from './materia.controller';
 import claseController from './clase.controller';
 import horaController from './hora.controller';
 import qrController from './qr.controller';
+import asistenciaController from './asistencia.controller';
+
 
 
 const routes = {
@@ -22,7 +24,8 @@ const routes = {
   materiasController,
   claseController,
   horaController,
-  qrController
+  qrController,
+  asistenciaController
 };
 
 export default routes;

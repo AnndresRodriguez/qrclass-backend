@@ -11,7 +11,7 @@ export class AsistenciaEstudiante extends BaseEntity{
     @Column({type: 'integer'})
     idMateria: number;
     @Column({type: 'integer'})
-    idDia: number;
+    idDocente: number;
 
     // static getAllAdmins(){
     //     return this.createQueryBuilder("admin")

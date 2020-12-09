@@ -1,6 +1,6 @@
 export interface IAsistencia {
-    id: number;
-    asistio: string;
-    clase: number;
-    fecha: Date
+    idEstudiante: number;
+    idMateria: number;
+    idDocente: number;
+    asistio: number;
 }

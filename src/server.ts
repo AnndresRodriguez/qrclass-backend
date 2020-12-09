@@ -64,6 +64,7 @@ export default class Server {
       this.app.use('/clases', routes.claseController);
       this.app.use('/horas', routes.horaController);
       this.app.use('/qr', routes.qrController);
+      this.app.use('/asistencias', routes.asistenciaController);
       this.app.use(express.static("public"));
       
     }
