@@ -9,6 +9,7 @@ import { ProgramaAcademico } from '../models/programaAcademico.entity';
 import XSLX from 'xlsx';
 import { IEstudiante } from '../models/interfaces/IEstudiante';
 import { Estudiante } from '../models/estudiante.entity';
+import fs from "fs";
 
 
 class MateriaService {
@@ -220,6 +221,19 @@ class MateriaService {
     }
 
     return httpResponse;
+  }
+
+  async manageTXTFiles(path: string){
+
+    fs.readFile(__dirname + path, (error, data) => {
+      if(error) {
+          throw error;
+      }
+      return data.toString();
+  });
+
+    
+
   }
 
   async createStudent(estudiante: object){
