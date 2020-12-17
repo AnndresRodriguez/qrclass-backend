@@ -68,7 +68,7 @@ class EstudianteController {
 
     async getAsistencias(req: Request, res: Response){
 
-        const { operation, message, data } =  await estudianteService.getAsitenciasByMateria(parseInt(req.body.idEstudiante))
+        const { operation, message, data } =  await estudianteService.getAsitenciasByMateria(parseInt(req.params.id))
         operation
          ? res.status(200).json({ operation, message, data })
          : res.status(202).json({ operation, message });
@@ -78,7 +78,7 @@ class EstudianteController {
     routes() {
         this.router.get("/", this.getAllEstudiantes);
         this.router.get("/:id", this.getEstudiante);
-        this.router.post("/asistencias", this.getAsistencias);
+        this.router.get("/asistencias/:id", this.getAsistencias);
         this.router.post("/", this.createEstudiante);
         this.router.post("/email", this.findEstudianteByEmail);
         this.router.put("/", this.updateEstudiante);
