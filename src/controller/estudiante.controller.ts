@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import estudianteService from '../services/estudiante.service';
+import materiaService from '../services/materia.service';
 import { IEstudiante } from '../models/interfaces/IEstudiante';
 
 class EstudianteController {
@@ -65,9 +66,19 @@ class EstudianteController {
 
     }
 
+    async getAsistencias(req: Request, res: Response){
+
+        const { operation, message, data } =  await estudianteService.getAsitenciasByMateria(parseInt(req.body.idEstudiante))
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllEstudiantes);
         this.router.get("/:id", this.getEstudiante);
+        this.router.post("/asistencias", this.getAsistencias);
         this.router.post("/", this.createEstudiante);
         this.router.post("/email", this.findEstudianteByEmail);
         this.router.put("/", this.updateEstudiante);
