@@ -197,27 +197,18 @@ class MateriaService {
     if(materiaClase != undefined){
 
 
-      let nombreHoja = excelFile.SheetNames;
-      let datos = XSLX.utils.sheet_to_json(excelFile.Sheets[nombreHoja[0]])
+    //  let nombreHoja = excelFile.SheetNames;
+     // let datos = XSLX.utils.sheet_to_json(excelFile.Sheets[nombreHoja[0]])
 
    
       // let est = <IEstudiante[]>datos;
       // let datosEstudiantes = datos.map(dato => ( { nombre: dato.nombre } ))
 
 
-      const studentsCreated: Array<Estudiante> = [];
-      let index = 0;
+      // const studentsCreated: Array<Estudiante> = [];
+      // let index = 0;
 
-      // while(datos.length !== studentsCreated.length){
-
-       
-
-        // const day = await this.createStudent((datos[index]));
-
-      // }
-
-      // httpResponse.findOne(datos);
-
+     
     }
 
     return httpResponse;
