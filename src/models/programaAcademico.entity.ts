@@ -46,6 +46,16 @@ export class ProgramaAcademico extends BaseEntity{
         .getMany();
     }
 
+    static getAsistenciasByPrograma(){
+
+      return this.createQueryBuilder("programaacademico")
+      .leftJoinAndSelect('programaacademico.materias', 'materia')
+      .leftJoinAndSelect('materia.asistencias', 'asistencia')
+      .getMany();
+
+
+    }
+
     
 
 
