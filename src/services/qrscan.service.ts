@@ -28,36 +28,37 @@ class QrScanService {
     const httpResponse = new HttpResponse();
     const scanRepository = getRepository(AsistenciaEstudiante);
     const scanToCreate = scanRepository.create(scan);
-    const scanSaved = await scanToCreate.save()
+    const scanSaved = await scanToCreate.save();
+    this.createAsistenciaEstudiante(scan.idMateria, scan.idDocente)
     httpResponse.create('Scan', scanSaved);
     return httpResponse;
   }
 
-  async createAsistenciaEstudiante(asistencia: IAsistencia) {
+  async createAsistencia(idEstudiante: number, idMateria: number, idDocente: number) {
     
     const asistenciaRepository = getRepository(Asistencia);
     const asistenciaToCreate = asistenciaRepository.create({ 
-        estudiante: { id: asistencia.idEstudiante },
-        materia: { id: asistencia.idMateria },
-        docente: { id: asistencia.idDocente },
-        asistio: asistencia.asistio
+        estudiante: { id: idEstudiante },
+        materia: { id: idMateria },
+        docente: { id: idDocente },
+        asistio: 0
      });
     const asistenciaSaved = await asistenciaToCreate.save();
     
   }
 
-  async getEstudiantesMateria(id: number) {
+  async createAsistenciaEstudiante(idMateria: number, idDocente: number) {
     
     let estudiantes : Array<Estudiante> = [];
 
-    const materiaToFind = await Materia.getMateria(id);
+    const materiaToFind = await Materia.getMateria(idMateria);
     if(materiaToFind !== undefined){ 
         estudiantes = materiaToFind.estudiantes;
-        return estudiantes;
-    }
 
-    return estudiantes;
-  
+        estudiantes.map( estudiante => {
+          this.createAsistencia(estudiante.id, idMateria, idDocente)
+        });
+    }
   }
 
 
