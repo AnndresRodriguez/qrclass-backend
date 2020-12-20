@@ -53,7 +53,6 @@ export class ProgramaAcademico extends BaseEntity{
       .leftJoinAndSelect('materia.asistencias', 'asistencia')
       .getMany();
 
-
     }
 
     

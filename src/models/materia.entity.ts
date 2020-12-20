@@ -108,6 +108,31 @@ export class Materia extends BaseEntity{
         .getMany();
     }
 
+    static getMateria(idMateria: number){
+
+      return this.createQueryBuilder("materia")
+        .select([
+          "materia.id",
+          "materia.nombre",
+          "materia.codigo",
+          "materia.noestudiantes",
+          "materia.nocreditos",
+          "materia.estado",
+          "docente.nombre",
+          "docente.codigo",
+          "docente.correo",
+          "docente.telefono",
+          "programaacademico.nombre",
+          "programaacademico.codigo",
+          "programaacademico.correo",
+
+        ])
+        .leftJoin("materia.docente", "docente")
+        .leftJoin("materia.programaAcademico", "programaacademico")
+        .where("materia.id = :id", { id: idMateria })
+        .getOne();
+    }
+
     static getMateriasbyDocente(idDocente: number){
 
       return this.createQueryBuilder("materia")

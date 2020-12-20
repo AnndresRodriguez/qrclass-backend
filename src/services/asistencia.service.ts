@@ -7,7 +7,7 @@ import { IAdmin } from "../models/interfaces/IAdmin";
 import { IScan } from '../models/interfaces/IScan';
 import { IAsistencia } from '../models/interfaces/IAsistencia';
 import { Asistencia } from '../models/asistencia.entity';
-import { clouddebugger } from "googleapis/build/src/apis/clouddebugger";
+
 
 class AsistenciaService {
  
