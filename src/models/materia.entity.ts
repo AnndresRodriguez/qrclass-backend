@@ -129,6 +129,7 @@ export class Materia extends BaseEntity{
         ])
         .leftJoin("materia.docente", "docente")
         .leftJoin("materia.programaAcademico", "programaacademico")
+        .leftJoinAndSelect("materia.estudiantes", "estudiante")
         .where("materia.id = :id", { id: idMateria })
         .getOne();
     }

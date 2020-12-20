@@ -51,7 +51,12 @@ class QrScanService {
     
     let estudiantes : Array<Estudiante> = [];
 
+    console.log('Create Asistencia Estudiante')
+    console.log('idMateria', idMateria)
+    console.log('idDocente', idDocente)
+
     const materiaToFind = await Materia.getMateria(idMateria);
+    console.log('materiaToFind', materiaToFind);
     if(materiaToFind !== undefined){ 
         estudiantes = materiaToFind.estudiantes;
 
