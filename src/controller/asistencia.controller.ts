@@ -23,6 +23,17 @@ class AsistenciaController {
 
     }
 
+    async updateAsistencia(req: Request, res: Response){
+
+        const dataAsistencia: IAsistencia = req.body;
+
+        const { operation, message, data } =  await asistenciaService.updateAsistenciaEstudiante(dataAsistencia);
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     // async getDataScanQR(req: Request, res: Response){
 
     //     const { operation, message, data } =  await qrService.getScan();
@@ -37,6 +48,7 @@ class AsistenciaController {
     routes() {
         // this.router.get("/", this.getDataScanQR);
         this.router.post("/", this.createAsistencia);   
+        this.router.put("/", this.updateAsistencia);   
     }
 }
 

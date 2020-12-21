@@ -8,6 +8,9 @@ import { Estudiante } from './estudiante.entity';
 export class Asistencia extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     id: number;
+
+    @Column({type: 'integer'})
+    idScan: number;
     
     @Column({type: 'integer'})
     asistio: number;

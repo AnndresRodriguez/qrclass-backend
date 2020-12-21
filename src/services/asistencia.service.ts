@@ -26,6 +26,49 @@ class AsistenciaService {
     return httpResponse;
   }
 
+  async updateAsistenciaEstudiante(asistencia: IAsistencia){
+
+    console.log(asistencia);
+    const httpResponse = new HttpResponse();
+    const asistenciaRepository = getRepository(Asistencia);
+    const asistenciaToFind = await asistenciaRepository.findOne({ 
+      where: { 
+        estudiante: { id: +asistencia.idEstudiante },
+        materia: { id: +asistencia.idMateria },
+        docente: { id: +asistencia.idDocente },
+        idScan: +asistencia.idScan        
+      } 
+    });
+
+    console.log('asistenciaToFind', asistenciaToFind);
+
+    if(asistenciaToFind !== undefined){
+
+      const asistenciaUpdated = await getRepository(Asistencia)
+      .createQueryBuilder()
+      .update()
+      .set({ idScan: asistencia.idScan, 
+             estudiante: { id: asistencia.idEstudiante },
+             materia: { id: asistencia.idMateria },
+             docente: { id: asistencia.idDocente },
+             asistio: 1,
+             createdAt: asistencia.fecha,
+             updatedAt: new Date()
+             })
+
+      .where("id = :id", { id: asistenciaToFind.id })
+      .execute();
+
+        // asistenciaToFind.asistio = 1;
+        // const asistenciaUpdated = await asistenciaToFind.save();
+        httpResponse.update('Asistencia', asistenciaUpdated);
+        return httpResponse;
+    }
+
+    httpResponse.errorNotFoundID('Asistencia', asistencia.idEstudiante);
+    return httpResponse;
+  }
+
 }
 
 const asistenciaService = new AsistenciaService();

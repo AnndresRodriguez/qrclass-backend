@@ -28,32 +28,37 @@ class QrScanService {
     const httpResponse = new HttpResponse();
     const scanRepository = getRepository(AsistenciaEstudiante);
     const scanToCreate = scanRepository.create(scan);
+    const dateScan = new Date();
+    scanToCreate.createdAt = dateScan;
     const scanSaved = await scanToCreate.save();
-    this.createAsistenciaEstudiante(scan.idMateria, scan.idDocente)
+    this.createAsistenciaEstudiante(scan.idMateria, scan.idDocente, dateScan, scanSaved.id)
     httpResponse.create('Scan', scanSaved);
     return httpResponse;
   }
 
-  async createAsistencia(idEstudiante: number, idMateria: number, idDocente: number) {
+  async createAsistencia(idEstudiante: number, idMateria: number, idDocente: number, fecha:Date, idScan: number) {
     
     const asistenciaRepository = getRepository(Asistencia);
-    const asistenciaToCreate = asistenciaRepository.create({ 
+    const asistenciaToCreate = asistenciaRepository.create({
+        idScan: idScan, 
         estudiante: { id: idEstudiante },
         materia: { id: idMateria },
         docente: { id: idDocente },
-        asistio: 0
+        asistio: 0,
+        createdAt: new Date(fecha)
      });
-    const asistenciaSaved = await asistenciaToCreate.save();
+     asistenciaToCreate.save();
     
   }
 
-  async createAsistenciaEstudiante(idMateria: number, idDocente: number) {
+  async createAsistenciaEstudiante(idMateria: number, idDocente: number, fecha: Date, idScan: number) {
     
     let estudiantes : Array<Estudiante> = [];
 
     console.log('Create Asistencia Estudiante')
     console.log('idMateria', idMateria)
     console.log('idDocente', idDocente)
+    console.log('idScan', idScan)
 
     const materiaToFind = await Materia.getMateria(idMateria);
     console.log('materiaToFind', materiaToFind);
@@ -61,7 +66,7 @@ class QrScanService {
         estudiantes = materiaToFind.estudiantes;
 
         estudiantes.map( estudiante => {
-          this.createAsistencia(estudiante.id, idMateria, idDocente)
+          this.createAsistencia(estudiante.id, idMateria, idDocente, fecha, idScan)
         });
     }
   }

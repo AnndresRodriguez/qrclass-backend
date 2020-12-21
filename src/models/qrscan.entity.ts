@@ -13,6 +13,9 @@ export class AsistenciaEstudiante extends BaseEntity{
     @Column({type: 'integer'})
     idDocente: number;
 
+    @Column({type: 'datetime', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
     // static getAllAdmins(){
     //     return this.createQueryBuilder("admin")
     //     .select([
