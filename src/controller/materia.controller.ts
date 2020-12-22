@@ -6,6 +6,7 @@ import { IMateria } from '../models/interfaces/IMateria';
 import { v1 as uuidv1 } from "uuid";
 import { createURLFile } from '../libs/tools';
 import path from 'path';
+import { INuevoEstudiante } from '../models/interfaces/INuevoEstudiante';
 
 class MateriaController {
 
@@ -89,6 +90,15 @@ class MateriaController {
 
     }
 
+     async enrollStudentMateria(req: Request, res: Response){
+
+        const estudiantes: Array<INuevoEstudiante> = req.body.estudiantes;
+        const { operation, message, data } =  await materiaService.createDinamicStudents(estudiantes, parseInt(req.body.idMateria))
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+     }
+
 
 
     async loadStudentsByMateria(req: Request, res: Response){
@@ -150,6 +160,7 @@ class MateriaController {
         this.router.get("/asistencias/:id", this.getAsistenciasByMateria);
         this.router.post("/", this.createMateria);
         this.router.post("/files", this.loadStudentsByMateria);
+        this.router.post("/matriculas", this.enrollStudentMateria);
         this.router.put("/", this.updateMateria);
         this.router.delete("/:id", this.desactivateMateria);
     }

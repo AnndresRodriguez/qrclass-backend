@@ -10,6 +10,7 @@ import XSLX from 'xlsx';
 import { IEstudiante } from '../models/interfaces/IEstudiante';
 import { Estudiante } from '../models/estudiante.entity';
 import fs from "fs";
+import { INuevoEstudiante } from "models/interfaces/INuevoEstudiante";
 
 
 class MateriaService {
@@ -187,45 +188,44 @@ class MateriaService {
         return !_.isEmpty(materiaFinded);
   }
 
-  async createDinamicStudents(nameFile: string, idMateria: number){
+  async createDinamicStudents(estudiantesNuevos: Array<INuevoEstudiante>, idMateria: number){
 
     const httpResponse = new HttpResponse();
-    const excelFile = XSLX.readFile(nameFile);
     const materiaRepository = getRepository(Materia);
-    const materiaClase = await materiaRepository.findOne({ id: idMateria })
+    const estudianteRepository = getRepository(Estudiante);
+    const materiaClase = await materiaRepository.findOne({ id: idMateria });
+    let index = 0;
 
     if(materiaClase != undefined){
 
+      const estudiantes: Array<Estudiante> = [];
 
-    //  let nombreHoja = excelFile.SheetNames;
-     // let datos = XSLX.utils.sheet_to_json(excelFile.Sheets[nombreHoja[0]])
+      while (estudiantes.length !== estudiantesNuevos.length){
 
-   
-      // let est = <IEstudiante[]>datos;
-      // let datosEstudiantes = datos.map(dato => ( { nombre: dato.nombre } ))
+        const estudianteToCreate = estudianteRepository.create({
+          codigo: estudiantesNuevos[index].codigo,
+          nombre: estudiantesNuevos[index].nombre,
+          correo: estudiantesNuevos[index].correo,
+          telefono: estudiantesNuevos[index].telefono,
+          estado: 1
+        });
+  
+        const estudianteCreated = await estudianteToCreate.save();
+        estudiantes.push(estudianteCreated);
+        index++;
+  
+      }
 
-
-      // const studentsCreated: Array<Estudiante> = [];
-      // let index = 0;
-
+      materiaClase.estudiantes = estudiantes;
+      materiaClase.updatedAt = new Date();
+      const materiaToSave = materiaClase.save();
+      httpResponse.create('Matricula', materiaToSave);
+      return httpResponse;
      
     }
-
     return httpResponse;
   }
 
-  async manageTXTFiles(path: string){
-
-    fs.readFile(__dirname + path, (error, data) => {
-      if(error) {
-          throw error;
-      }
-      return data.toString();
-  });
-
-    
-
-  }
 
   async createStudent(estudiante: object){
 

@@ -18,6 +18,7 @@ class QrScanService {
     const httpResponse = new HttpResponse();
     const scanRepository = getRepository(AsistenciaEstudiante);
     const allscans = await scanRepository.find();
+    console.log(allscans[allscans.length-1]);
     httpResponse.findAll(allscans[allscans.length-1]);
     return httpResponse;
     
