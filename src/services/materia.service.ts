@@ -188,6 +188,11 @@ class MateriaService {
         return !_.isEmpty(materiaFinded);
   }
 
+  async createEstudents (estudiantesNuevos: Array<INuevoEstudiante>){
+    const httpResponse = new HttpResponse();
+    return httpResponse;
+  }
+
   async createDinamicStudents(estudiantesNuevos: Array<INuevoEstudiante>, idMateria: number){
 
     const httpResponse = new HttpResponse();
