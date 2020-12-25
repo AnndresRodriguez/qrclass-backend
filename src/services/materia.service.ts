@@ -190,6 +190,25 @@ class MateriaService {
 
   async createEstudents (estudiantesNuevos: Array<INuevoEstudiante>){
     const httpResponse = new HttpResponse();
+    const estudianteRepository = getRepository(Estudiante);
+    let index = 0;
+    const estudiantes: Array<Estudiante> = [];
+    while (estudiantes.length !== estudiantesNuevos.length){
+
+      const estudianteToCreate = estudianteRepository.create({
+        codigo: estudiantesNuevos[index].codigo,
+        nombre: estudiantesNuevos[index].nombre,
+        correo: estudiantesNuevos[index].correo,
+        telefono: estudiantesNuevos[index].telefono,
+        estado: 1
+      });
+
+      const estudianteCreated = await estudianteToCreate.save();
+      estudiantes.push(estudianteCreated);
+      index++;
+
+    }
+    httpResponse.create('Estudiantes', estudiantes);
     return httpResponse;
   }
 
