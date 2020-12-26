@@ -212,6 +212,16 @@ class MateriaService {
     return httpResponse;
   }
 
+  async enrollStudents(estudiantesNuevos: Array<INuevoEstudiante>, idMateria: number){
+
+    const httpResponse = new HttpResponse();
+    const materiaRepository = getRepository(Materia);
+    const estudianteRepository = getRepository(Estudiante);
+    const materiaClase = await materiaRepository.findOne({ id: idMateria });
+
+    
+  }
+
   async createDinamicStudents(estudiantesNuevos: Array<INuevoEstudiante>, idMateria: number){
 
     const httpResponse = new HttpResponse();
@@ -266,6 +276,16 @@ class MateriaService {
     // httpResponse.errorDuplicated();
     // return httpResponse;
     
+  }
+
+  async validateExistentStudent(email: string){
+
+    const estudianteRepository = getRepository(Estudiante);
+    const studentEnrolled = await estudianteRepository.findOne({
+      where: { correo: email }
+    })
+
+    return studentEnrolled === undefined
   }
 
 }
