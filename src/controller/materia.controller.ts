@@ -99,6 +99,15 @@ class MateriaController {
          : res.status(202).json({ operation, message });
      }
 
+     async enrollStudent(req: Request, res: Response){
+
+        const estudiantes: Array<INuevoEstudiante> = req.body.estudiantes;
+        const { operation, message, data } =  await materiaService.createStudents(estudiantes)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+     }
+
 
 
     async loadStudentsByMateria(req: Request, res: Response){

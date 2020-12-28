@@ -188,7 +188,7 @@ class MateriaService {
         return !_.isEmpty(materiaFinded);
   }
 
-  async createEstudents (estudiantesNuevos: Array<INuevoEstudiante>){
+  async createStudents (estudiantesNuevos: Array<INuevoEstudiante>){
     const httpResponse = new HttpResponse();
     const estudianteRepository = getRepository(Estudiante);
     let index = 0;
