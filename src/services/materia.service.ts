@@ -218,7 +218,26 @@ class MateriaService {
     const materiaRepository = getRepository(Materia);
     const estudianteRepository = getRepository(Estudiante);
     const materiaClase = await materiaRepository.findOne({ id: idMateria });
+    let index = 0;
+    if(materiaClase != undefined){
 
+      const estudiantes: Array<Estudiante> = [];
+      const notEnrolledStudnents: Array<INuevoEstudiante> = [];
+
+      estudiantesNuevos.map( async estudiante => {
+        
+          const isEnrolled = await this.validateExistentStudent(estudiante.correo);
+          if(!isEnrolled){
+             notEnrolledStudnents.push(estudiante);
+          }
+
+      })
+
+
+
+
+
+    }
     
   }
 
@@ -285,7 +304,7 @@ class MateriaService {
       where: { correo: email }
     })
 
-    return studentEnrolled === undefined
+    return studentEnrolled !== undefined
   }
 
 }
