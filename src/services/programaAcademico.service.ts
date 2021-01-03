@@ -137,7 +137,37 @@ class ProgramaAcademicoService {
     currentProgram.dirPrograma = newDirector;
     currentProgram.updatedAt = new Date();
     return currentProgram;
-}
+  }
+
+  async getStudentsByPrograma(idProgramaAcademico: number){
+
+    const httpResponse = new HttpResponse();
+    const students = await ProgramaAcademico.getStudentsByPrograma(idProgramaAcademico);
+
+    if(!_.isEmpty(students)){
+      httpResponse.findAll(students);
+      return httpResponse;
+    }
+
+    httpResponse.errorNotFoundID('Programa Académico', idProgramaAcademico);
+    return httpResponse;
+
+  }
+
+  async getProgramaByDirector(idDirector: number){
+
+    const httpResponse = new HttpResponse();
+    const programaDirector = await ProgramaAcademico.getProgramaDirector(idDirector);
+    if(programaDirector !== undefined){
+        httpResponse.findOne(programaDirector);
+        return httpResponse;
+    }
+
+    httpResponse.errorNotFoundID('Director Programa', idDirector);
+    return httpResponse;
+
+  }
+
 }
 
 const programaAcademicoService = new ProgramaAcademicoService();

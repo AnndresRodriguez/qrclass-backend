@@ -46,13 +46,32 @@ class ProgramaAcademicoController {
 
     }
 
-    desactivateProgramaAcademico(req: Request, res: Response){
+    desactivateProgramaAcademico(req: Request, res: Response){}
+
+    async getStudentsByProgram(req: Request, res: Response){
+
+        const { operation, message, data } = await programaAcademicoService.getStudentsByPrograma(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+    }
+
+    async getProgramaByDirector(req: Request, res: Response){
+
+        const { operation, message, data } = await programaAcademicoService.getProgramaByDirector(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+
 
     }
 
     routes() {
         this.router.get("/", this.getAllProgramaAcademicos);
         this.router.get("/:id", this.getProgramaAcademico);
+        this.router.get("/estudiantes/:id", this.getStudentsByProgram);
+        this.router.get("/directores/:id", this.getProgramaByDirector);
         this.router.post("/", this.createProgramaAcademico);
         this.router.put("/", this.updateProgramaAcademico);
         this.router.delete("/:id", this.desactivateProgramaAcademico);

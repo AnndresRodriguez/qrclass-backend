@@ -20,6 +20,19 @@ class EstudianteService {
     return httpResponse;
   }
 
+  async getAllStudentsByProgram(idPrograma: number){
+
+    const httpResponse = new HttpResponse();
+    const studentsProgram = await Estudiante.getAllStudentsByProgram(idPrograma);
+    if(!_.isEmpty(studentsProgram)){
+      httpResponse.findAll(studentsProgram);
+      return httpResponse;
+    }
+
+    httpResponse.errorNotFoundID('Programa Academico', idPrograma);
+    return httpResponse;
+  }
+
 
   async getAsitenciasByMateria(idEstudiante: number){
     const httpResponse = new HttpResponse();

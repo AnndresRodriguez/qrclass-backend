@@ -5,6 +5,9 @@ import _ from "lodash";
 import { HttpResponse } from "../util/HttpResponse";
 import { IDirector } from "../models/interfaces/IDirector";
 import { DirPrograma } from '../models/directorPrograma.entity'
+import { INuevoEstudiante } from '../models/interfaces/INuevoEstudiante';
+import { Estudiante } from '../models/estudiante.entity';
+import { Materia } from '../models/materia.entity';
 
 class DirectorService {
   async getAllDirectors() {
@@ -79,8 +82,6 @@ class DirectorService {
   
       httpResponse.errorFormatInvalid(id);
       return httpResponse;
-
-
     
   }
 
@@ -142,6 +143,83 @@ class DirectorService {
     return httpResponse;
   
   }
+
+  async createStudents (estudiantesNuevos: Array<INuevoEstudiante>){
+    const httpResponse = new HttpResponse();
+    const estudianteRepository = getRepository(Estudiante);
+    let index = 0;
+    const estudiantes: Array<Estudiante> = [];
+    while (estudiantes.length !== estudiantesNuevos.length){
+
+
+
+      const estudianteToCreate = estudianteRepository.create({
+        codigo: estudiantesNuevos[index].codigo,
+        nombre: estudiantesNuevos[index].nombre,
+        correo: estudiantesNuevos[index].correo,
+        telefono: estudiantesNuevos[index].telefono,
+        estado: 1
+      });
+
+      const estudianteCreated = await estudianteToCreate.save();
+      estudiantes.push(estudianteCreated);
+      index++;
+
+    }
+    httpResponse.create('Estudiantes', estudiantes);
+    return httpResponse;
+  }
+
+  async enrollStudents(estudiantesNuevos: Array<INuevoEstudiante>){
+
+    // console.log(estudiantesNuevos[0]);
+    const httpResponse = new HttpResponse();
+    const estudianteRepository = getRepository(Estudiante);
+    let index = 0;
+    const estudiantes: Array<Estudiante> = [];
+    const alreadyEnrolledStudents: Array<INuevoEstudiante> = [];
+
+    while (index !== estudiantesNuevos.length){
+
+      console.log('index', index);
+      const isEnrolled = await this.validateExistentStudent(estudiantesNuevos[index].correo);
+      if(isEnrolled){
+          alreadyEnrolledStudents.push(estudiantesNuevos[index]);
+          index++;
+      }else {
+          
+        const estudianteToCreate = estudianteRepository.create({
+            codigo: estudiantesNuevos[index].codigo,
+            nombre: estudiantesNuevos[index].nombre,
+            correo: estudiantesNuevos[index].correo,
+            telefono: estudiantesNuevos[index].telefono,
+            estado: 1
+        });
+
+        const estudianteCreated = await estudianteToCreate.save();
+        estudiantes.push(estudianteCreated);
+        index++;
+      } 
+    }
+
+    httpResponse.create('Estudiantes', { newStudents: estudiantes, existStudents: alreadyEnrolledStudents })
+    return httpResponse;
+        
+  }
+
+  async validateExistentStudent(email: string){
+
+    const estudianteRepository = getRepository(Estudiante);
+    const studentEnrolled = await estudianteRepository.findOne({
+      where: { correo: email }
+    })
+
+    return studentEnrolled !== undefined
+  }
+
+  
+
+
 
 }
 

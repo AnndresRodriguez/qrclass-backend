@@ -28,6 +28,15 @@ class EstudianteController {
 
     }
 
+    async getEstudiantesPrograma(req: Request, res: Response){
+
+        const { operation, message, data } =  await estudianteService.getAllStudentsByProgram(parseInt(req.params.id));
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     async createEstudiante(req: Request, res: Response){
 
         const newAdmin: IEstudiante = req.body;
@@ -79,6 +88,7 @@ class EstudianteController {
         this.router.get("/", this.getAllEstudiantes);
         this.router.get("/:id", this.getEstudiante);
         this.router.get("/asistencias/:id", this.getAsistencias);
+        this.router.get("/programa/:id", this.getEstudiantesPrograma);
         this.router.post("/", this.createEstudiante);
         this.router.post("/email", this.findEstudianteByEmail);
         this.router.put("/", this.updateEstudiante);

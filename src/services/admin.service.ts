@@ -165,8 +165,6 @@ class AdminService {
 
   async setDataAdmin(currentAdmin: Admin, newDataAdmin: IAdmin) {
 
-    
-
     currentAdmin.documento = newDataAdmin.documento;
     currentAdmin.nombrecompleto = newDataAdmin.nombrecompleto;
     currentAdmin.correo = newDataAdmin.correo;

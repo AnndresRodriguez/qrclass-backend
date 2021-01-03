@@ -222,20 +222,17 @@ class MateriaService {
     if(materiaClase != undefined){
 
       const estudiantes: Array<Estudiante> = [];
-      const notEnrolledStudnents: Array<INuevoEstudiante> = [];
+      const notEnrolledStudents: Array<INuevoEstudiante> = [];
 
       estudiantesNuevos.map( async estudiante => {
         
           const isEnrolled = await this.validateExistentStudent(estudiante.correo);
           if(!isEnrolled){
-             notEnrolledStudnents.push(estudiante);
+             notEnrolledStudents.push(estudiante);
           }
 
+
       })
-
-
-
-
 
     }
     
@@ -245,34 +242,37 @@ class MateriaService {
 
     const httpResponse = new HttpResponse();
     const materiaRepository = getRepository(Materia);
-    const estudianteRepository = getRepository(Estudiante);
+
     const materiaClase = await materiaRepository.findOne({ id: idMateria });
     let index = 0;
 
     if(materiaClase != undefined){
 
       const estudiantes: Array<Estudiante> = [];
+      const notFoundEmails: Array<String> = [];
 
-      while (estudiantes.length !== estudiantesNuevos.length){
+      while (index !== estudiantesNuevos.length){
 
-        const estudianteToCreate = estudianteRepository.create({
-          codigo: estudiantesNuevos[index].codigo,
-          nombre: estudiantesNuevos[index].nombre,
-          correo: estudiantesNuevos[index].correo,
-          telefono: estudiantesNuevos[index].telefono,
-          estado: 1
-        });
-  
-        const estudianteCreated = await estudianteToCreate.save();
-        estudiantes.push(estudianteCreated);
-        index++;
+        const studentToFind = await this.findStudent(estudiantesNuevos[index].correo);
+
+        if(studentToFind !== undefined){
+
+          estudiantes.push(studentToFind);
+          index++;
+
+        }else {
+          notFoundEmails.push(estudiantesNuevos[index].correo);
+          index++;
+
+        }
   
       }
 
       materiaClase.estudiantes = estudiantes;
       materiaClase.updatedAt = new Date();
-      const materiaToSave = materiaClase.save();
-      httpResponse.create('Matricula', materiaToSave);
+      const materiaToSave = await materiaClase.save();
+      httpResponse.create('Matricula', { materia: materiaToSave, notFoundEmails: notFoundEmails });
+      index = 0;
       return httpResponse;
      
     }
@@ -305,6 +305,16 @@ class MateriaService {
     })
 
     return studentEnrolled !== undefined
+  }
+
+  async findStudent(email: string){
+
+    const estudianteRepository = getRepository(Estudiante);
+    const studentEnrolled = await estudianteRepository.findOne({
+      where: { correo: email }
+    })
+
+    return studentEnrolled;
   }
 
 }

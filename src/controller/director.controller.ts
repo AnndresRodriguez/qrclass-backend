@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { IEstudiante } from 'models/interfaces/IEstudiante';
 import directorService from '../services/director.service';
 import { IDirector } from './../models/interfaces/IDirector';
 
@@ -67,11 +68,25 @@ class DirectorController {
 
     }
 
+    async enrollStudents(req: Request, res: Response){
+
+        const studentsToEnroll: Array<IEstudiante> = req.body.estudiantes;
+
+        console.log('studentsToEntroll', studentsToEnroll)
+
+        const { operation, message, data } =  await directorService.enrollStudents(studentsToEnroll)
+        operation
+         ? res.status(200).json({ operation, message, data })
+         : res.status(202).json({ operation, message });
+
+    }
+
     routes() {
         this.router.get("/", this.getAllDirectors);
         this.router.get("/:id", this.getDirector);
         this.router.post("/", this.createDirector);
         this.router.post("/email", this.findDirectorByEmail);
+        this.router.post("/registrar-estudiantes", this.enrollStudents);
         this.router.put("/", this.updateDirector);
         this.router.delete("/:id", this.desactivateDirector);
     }

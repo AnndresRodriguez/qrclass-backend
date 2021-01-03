@@ -46,6 +46,25 @@ export class Estudiante extends BaseEntity{
     }
 
 
+    static getAllStudentsByProgram(idPrograma: number){
+
+      return this.createQueryBuilder("estudiante")
+        .select([
+          "estudiante.id",
+          "estudiante.codigo",
+          "estudiante.nombre",
+          "estudiante.correo",
+          "estudiante.telefono",
+          "estudiante.estado"
+        ])
+        .leftJoin('estudiante.materias', 'materia')
+        .leftJoin('materia.programaAcademico', 'programaacademico')
+        .where("programaacademico.id = :id", { id: idPrograma })
+        .getMany();
+
+    }
+
+
     static getAsistenciaByMateria(idEstudiante: number){
 
       return this.createQueryBuilder("estudiante")

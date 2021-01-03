@@ -55,7 +55,24 @@ export class ProgramaAcademico extends BaseEntity{
 
     }
 
-    
+    static getStudentsByPrograma(idPrograma: number){
+
+      return this.createQueryBuilder("programaacademico")
+      .leftJoinAndSelect('programaacademico.materias', 'materia')
+      .leftJoinAndSelect('materia.estudiantes', 'estudiantes')
+      .where("programaacademico.id = :id", { id: idPrograma })
+      .getOne();
+
+    }
+
+    static getProgramaDirector(idDirector: number){
+
+      return this.createQueryBuilder("programaacademico")
+      .leftJoinAndSelect("programaacademico.dirPrograma", "dirPrograma")
+      .where("dirPrograma.id = :id", { id: idDirector })
+      .getOne();
+
+    }
 
 
 

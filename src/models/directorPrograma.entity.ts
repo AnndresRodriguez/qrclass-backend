@@ -1,5 +1,4 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
 @Entity('dirprograma')
 export class DirPrograma extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
@@ -31,5 +30,7 @@ export class DirPrograma extends BaseEntity{
         ])
         .getMany();
     }
+
+   
 
 }
