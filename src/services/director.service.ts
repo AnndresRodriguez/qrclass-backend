@@ -151,8 +151,6 @@ class DirectorService {
     const estudiantes: Array<Estudiante> = [];
     while (estudiantes.length !== estudiantesNuevos.length){
 
-
-
       const estudianteToCreate = estudianteRepository.create({
         codigo: estudiantesNuevos[index].codigo,
         nombre: estudiantesNuevos[index].nombre,
@@ -180,8 +178,7 @@ class DirectorService {
     const alreadyEnrolledStudents: Array<INuevoEstudiante> = [];
 
     while (index !== estudiantesNuevos.length){
-
-      console.log('index', index);
+      
       const isEnrolled = await this.validateExistentStudent(estudiantesNuevos[index].correo);
       if(isEnrolled){
           alreadyEnrolledStudents.push(estudiantesNuevos[index]);

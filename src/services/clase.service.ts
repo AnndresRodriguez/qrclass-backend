@@ -6,34 +6,16 @@ import { getConnection, getRepository, ObjectID } from 'typeorm';
 import { Hora } from '../models/hora.entity';
 import { Dia } from '../models/dia.entity';
 import { Materia } from '../models/materia.entity';
-// import { Clase } from '../models/clase.entity';
 import { Docente } from '../models/docente.entity';
 import { IHorario } from '../models/interfaces/IHorario';
 import { Horario } from '../models/horario.entity';
-// import { Clase } from "models/clase.entity";
+
 
 
 class ClaseService {
  
-
-  // async getAllClases() {
-
-  //   const httpResponse = new HttpResponse();
-  //   const allClases = await Clase.getAllClases() ;
-
-  //   if(!_.isEmpty(allClases)){
-  //     httpResponse.findOne(allClases);
-  //     return httpResponse;
-  //   }
-  //   return httpResponse;
-    
-  // }
-
- 
-
   async createClase(idMateria:number, idDocente:number, dataHorario: Array<IHorario>) {
 
-    // const classes: Array<Clase> = [];
     const horarios: Array<Horario> = [];
       
     console.log(dataHorario);
@@ -74,7 +56,6 @@ class ClaseService {
       
     }
 
-    console.log('Termine el whileeee')
 
     const materiaClase = await materiaRepository.findOne({ id: idMateria });
     const docenteClase = await docenteRepository.findOne({ id: idDocente });

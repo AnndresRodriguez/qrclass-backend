@@ -60,11 +60,9 @@ class AsistenciaService {
 
       .where("id = :id", { id: asistenciaToFind.id })
       .execute();
-
-        // asistenciaToFind.asistio = 1;
-        // const asistenciaUpdated = await asistenciaToFind.save();
-        httpResponse.update('Asistencia', asistenciaUpdated);
-        return httpResponse;
+      
+      httpResponse.update('Asistencia', asistenciaUpdated);
+      return httpResponse;
     }
 
     httpResponse.errorNotFoundID('Asistencia', asistencia.idEstudiante);
