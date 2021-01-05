@@ -81,9 +81,6 @@ export class HttpResponse {
     }
 
     errorNotRecordFound(nameEntity: string, field: string, value: any){
-
       this.message = `${nameEntity} with field ${field} ${value} was not found`;
-
-
     }
   }
