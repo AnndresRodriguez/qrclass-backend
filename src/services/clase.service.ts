@@ -62,8 +62,6 @@ class ClaseService {
 
     if(materiaClase !== undefined){
       if(docenteClase !== undefined){
-
-        
         materiaClase.horarios = horarios;
         materiaClase.updatedAt = new Date();
         const materiaToSave = materiaClase.save();

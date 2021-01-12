@@ -11,8 +11,6 @@ import { Asistencia } from '../models/asistencia.entity';
 
 class AsistenciaService {
 
- 
- 
   async createAsistenciaEstudiante(asistencia: IAsistencia) {
     console.log(asistencia);
     const httpResponse = new HttpResponse();
