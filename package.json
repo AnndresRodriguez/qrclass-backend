@@ -10,9 +10,9 @@
         "dev": "nodemon",
         "build": "tsc",
         "start": "node build/src",
-        "migration:generate": "ts-node node_modules/typeorm/cli.js migration:generate --config ./orm.config.json --name",
-        "migration:run": "ts-node node_modules/typeorm/cli.js migration:run --config ./orm.config.json",
-        "migration:revert": "ts-node node_modules/typeorm/cli.js migration:revert --config ./orm.config.json"
+        "migration:generate": "ts-node node_modules/typeorm/cli.js migration:generate --config ./ormconfig.json --name",
+        "migration:run": "ts-node node_modules/typeorm/cli.js migration:run --config ./ormconfig.json",
+        "migration:revert": "ts-node node_modules/typeorm/cli.js migration:revert --config ./ormconfig.json"
     },
     "keywords": [],
     "author": "anndresRodriguez",
