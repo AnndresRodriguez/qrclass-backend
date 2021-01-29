@@ -74,6 +74,7 @@
         "reflect-metadata": "^0.1.13",
         "sha1": "^1.1.1",
         "socket.io": "^2.3.0",
+        "status": "0.0.13",
         "swagger-ui-express": "^4.1.4",
         "typeorm": "^0.2.22",
         "typeorm-model-generator": "^0.4.4",
