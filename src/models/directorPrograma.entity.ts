@@ -1,4 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { threadId } from 'worker_threads';
 @Entity('dirprograma')
 export class DirPrograma extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
@@ -29,6 +30,17 @@ export class DirPrograma extends BaseEntity{
           "dirprograma.estado",
         ])
         .getMany();
+    }
+
+    static async finishSemester(){
+
+       await this.query('DELETE FROM horario')
+       await this.query('DELETE FROM matricula')
+       await this.query('DELETE FROM asistencia')
+       await this.query('DELETE FROM materia')
+       await this.query('DELETE FROM estudiante')
+       await this.query('DELETE FROM docente')
+
     }
 
    

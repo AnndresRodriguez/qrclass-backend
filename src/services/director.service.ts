@@ -40,6 +40,15 @@ class DirectorService {
     
   }
 
+  async finishSemester(){
+
+       const httpResponse = new HttpResponse();
+       DirPrograma.finishSemester();
+       httpResponse.delete('Reset Semester', { reset:true })
+       return httpResponse;
+
+  }
+
   async createDirector(director: IDirector) {
 
     const directorRepository = getRepository(DirPrograma);
